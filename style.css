@@ -1,0 +1,39 @@
+/* Styles go here */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.deck img {
+    width: 200px;
+    height: auto;
+}
+
+
+header {
+    display: flex;
+    align-items: flex-start;
+    position: fixed;
+}
+
+.Media-figure {
+    margin-right: 1em;
+}
+
+.Media-body {
+    flex: 1;
+}
+
+@media print {
+    header {
+        display: none;
+    }
+    body,
+    html,
+    main {
+        width: 100%;
+        height:100%;
+    }
+}
