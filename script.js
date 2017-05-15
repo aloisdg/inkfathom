@@ -99,6 +99,10 @@ function renderDeck() {
 // const card = parseContext(context);
 // const url = baseUrl + encodeURI(card.name);
 
+const locationHref = new URL(window.location.href)
+const searchParams = new URLSearchParams(locationHref.search)
+document.getElementById('cards').value = searchParams.get('cards')
+
 document.querySelector('.print')
     .addEventListener('click', function () {
         window.focus()
