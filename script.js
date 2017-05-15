@@ -100,7 +100,7 @@ function renderDeck() {
 // const url = baseUrl + encodeURI(card.name);
 
 const locationHref = new URL(window.location.href)
-if (locationHref.includes('?')) {
+if (locationHref.search) {
     const searchParams = new URLSearchParams(locationHref.search)
     document.getElementById('cards').value = searchParams.get('cards')
     renderDeck()
