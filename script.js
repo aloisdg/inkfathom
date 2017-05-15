@@ -100,8 +100,11 @@ function renderDeck() {
 // const url = baseUrl + encodeURI(card.name);
 
 const locationHref = new URL(window.location.href)
-const searchParams = new URLSearchParams(locationHref.search)
-document.getElementById('cards').value = searchParams.get('cards')
+if (locationHref.includes('?')) {
+    const searchParams = new URLSearchParams(locationHref.search)
+    document.getElementById('cards').value = searchParams.get('cards')
+    renderDeck()
+}
 
 document.querySelector('.print')
     .addEventListener('click', function () {
