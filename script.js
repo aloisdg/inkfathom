@@ -56,18 +56,20 @@ function getImageUrl(data, name, setId) {
     const editions = data.filter(x => x.name === name)[0].editions;
     const edition = setId ?
         editions.filter(x => x.set_id === setId) :
-        getNextEdition(editions);
+        getNextEdition(editions)
 
     return edition.image_url ?
         edition.image_url :
-        selectIllustration(edition);
+        selectIllustration(edition)
 }
 
 function appendCard(source, quantity) {
     while (quantity--) {
-        let img = document.createElement("img");
-        img.setAttribute("src", source);
-        deckElement.appendChild(img);
+        let img = document.createElement("img")
+        img.setAttribute("src", source)
+        img.classList.add('noGutter')
+        img.classList.add('smallSize')
+        deckElement.appendChild(img)
     }
 }
 
@@ -87,7 +89,7 @@ function fill(value) {
 }
 
 function renderDeck() {
-    const value = document.querySelector('.cards').value;
+    const value = document.querySelector('.cards').value.trim();
     if (value === '')
         return;
 
@@ -110,9 +112,35 @@ document.querySelector('.print')
     .addEventListener('click', function () {
         window.focus()
         window.print()
-    }, false);
+    }, false)
 
 document.querySelector('.display')
     .addEventListener('click', function () {
-        renderDeck();
-    }, false);
+        renderDeck()
+    }, false)
+
+const gutters = ['noGutter', 'lightGutter', 'boldGutter']
+const sizes = ['tinySize', 'smallSize', 'normalSize']
+// wtf classList is not iterable with filter
+// let gutter = imgs[0].classList.filter(x => x.endsWith('Gutter'))
+document.querySelector('.grid')
+    .addEventListener('click', function () {
+        let imgs = document.querySelectorAll(".deck img")
+        if (imgs.length == 0) return
+        let style = imgs[0].getAttribute('class').split(' ').find(x => x.endsWith('Gutter'))
+        imgs.forEach(img => {
+            img.classList.remove(style)
+            img.classList.add(gutters[(gutters.indexOf(style) + 1) % gutters.length])
+        })
+    }, false)
+
+document.querySelector('.size')
+    .addEventListener('click', function () {
+        let imgs = document.querySelectorAll(".deck img")
+        if (imgs.length == 0) return
+        let style = imgs[0].getAttribute('class').split(' ').find(x => x.endsWith('Size'))
+        imgs.forEach(img => {
+            img.classList.remove(style)
+            img.classList.add(sizes[(sizes.indexOf(style) + 1) % sizes.length])
+        })
+    }, false)

@@ -1,29 +1,70 @@
-/* Styles go here */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.deck img {
-    width: 200px;
-    height: auto;
-}
-
-
 header {
     display: flex;
     align-items: flex-start;
     position: fixed;
+    width: 100%;
 }
 
-.Media-figure {
+header h1 {
+    background: white;
+}
+
+header>* {
+    position: relative;
+    height: 42px;
+    margin: 4px;
+    padding: 4px;
+    min-width: 42px;
+    min-height: 42px;
+}
+
+main {
+    /*position: relative;*/
+    font-size: 0;
+}
+
+main img {
+        width: 200px;
+    height: auto;
+    transition: all 0.5s;
+}
+
+.title {
     margin-right: 1em;
 }
 
-.Media-body {
+.cards {
     flex: 1;
+}
+
+.noGutter {
+    margin: 0;
+}
+
+.lightGutter {
+    margin: 0 2px 2px 0;
+}
+
+.boldGutter {
+    margin: 0 6px 6px 0px;
+}
+
+.tinySize {
+      width: 40mm;  
+}
+
+.smallSize {
+    width: 60mm;
+}
+
+.normalSize {
+    width: 63mm;
 }
 
 @media print {
@@ -34,6 +75,6 @@ header {
     html,
     main {
         width: 100%;
-        height:100%;
+        height: 100%;
     }
 }
