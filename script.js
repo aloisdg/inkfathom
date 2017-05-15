@@ -144,3 +144,8 @@ document.querySelector('.size')
             img.classList.add(sizes[(sizes.indexOf(style) + 1) % sizes.length])
         })
     }, false)
+
+    document.querySelector('h1')
+    .addEventListener('click', function () {
+        document.querySelector('.cards').value = "4 Soul Warden\n4 Burning-Tree Emissary\n4 Avacyn's Pilgrim\n4 Darkness\n4 Annul"
+    }, false)
