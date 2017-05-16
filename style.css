@@ -9,6 +9,7 @@ header {
     align-items: flex-start;
     position: fixed;
     width: 100%;
+    top: 0;
 }
 
 header h1 {
@@ -27,7 +28,7 @@ header>* {
 main {
     /*position: relative;*/
     font-size: 0;
-    margin: 0 auto;
+    margin: 60px auto;
     width: 90%;
 }
 
