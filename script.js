@@ -3,7 +3,7 @@
 // http://tappedout.net/mtg-forum/general/site-where-you-can-automatically-formatprint-off-a-whole-deck/ !com
 
 let deckElement = document.querySelector('.deck');
-const baseUrl = "https://api.deckbrew.com/mtg/cards?name="
+const baseUrl = "https://api.scryfall.com/cards/search?q=name="
 
 function extracts(input, from, to) {
     const start = input.indexOf(from) + from.length;
@@ -53,14 +53,10 @@ function selectIllustration(illustrations) {
 }
 
 function getImageUrl(data, name, setId) {
-    const editions = data.filter(x => x.name === name)[0].editions;
-    const edition = setId ?
-        editions.filter(x => x.set_id === setId) :
-        getNextEdition(editions)
-
-    return edition.image_url ?
-        edition.image_url :
-        selectIllustration(edition)
+    // todo: should we handle name case?
+    // todo: allow to get a specific edition card
+    const imageUrl = data.data.filter(x => x.name === name)[0].image_uris.large;
+    return imageUrl;
 }
 
 function appendCard(source, quantity) {
