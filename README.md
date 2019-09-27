@@ -12,7 +12,7 @@ MTG is a great game. A great but expensive game. I can't afford to pay for a car
 
 All the code can run on any modern machine with a webbrowser. Everything works client-side. Bare old vanillaJS and HTML/CSS. No more no less.
 
-Picture rendering come from the [DeckBrew's API](https://deckbrew.com/api/).
+Picture rendering come from [Scryfall](https://scryfall.com/).
 
 ## Legal
 
