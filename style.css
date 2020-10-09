@@ -93,7 +93,7 @@ main img {
 }
 
 @media print {
-    header {
+    header, h1 {
         display: none;
     }
     body,
