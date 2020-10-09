@@ -52,21 +52,25 @@ function selectIllustration(illustrations) {
     return selectRandomItems(illustrations).image_url;
 }
 
-function getImageUrl(data, name, setId) {
+function getCardImageUrls(data, name, setId) {
     // todo: should we handle name case?
     // todo: allow to get a specific edition card
-    const imageUrl = data.data.filter(x => x.name === name)[0].image_uris.large;
-    return imageUrl;
+    const cardData = data.data.filter(x => x.name === name)[0]
+    if (cardData.card_faces === undefined)
+        return [ cardData.image_uris.large ];
+    return [ cardData.card_faces[0].image_uris.large, cardData.card_faces[1].image_uris.large ]
 }
 
-function appendCard(source, quantity) {
-    while (quantity--) {
-        let img = document.createElement("img")
-        img.setAttribute("src", source)
-        img.classList.add('noGutter')
-        img.classList.add('smallSize')
-        deckElement.appendChild(img)
-    }
+function appendCards(sources, quantity) {
+    sources.forEach(source => {
+        for (i = 0; i < quantity; i++) {
+            let img = document.createElement("img")
+            img.setAttribute("src", source)
+            img.classList.add('noGutter')
+            img.classList.add('smallSize')
+            deckElement.appendChild(img)
+        }
+    });
 }
 
 function clean() {
@@ -79,8 +83,8 @@ function fill(value) {
         const url = baseUrl + encodeURI(card.name);
 
         fetch(url).then(response => response.json())
-            .then(data => appendCard(getImageUrl(data, card.name, card.edition), card.quantity))
-            .catch(e => console.log("Booo"))
+            .then(data => appendCards(getCardImageUrls(data, card.name, card.edition), card.quantity))
+            .catch(e => console.log(`Booo:\n ${e}`))
     });
 }
 
