@@ -77,16 +77,30 @@ function clean() {
     document.querySelector('main').innerHTML = ""
 }
 
+function isUrl(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i') // fragment locator
+  return !!pattern.test(str)
+}
+
 function fill(value) {
     value.split('\n').forEach(context => {
-        const card = parseContext(context);
-        const url = baseUrl + encodeURI(card.name);
-
+        const card = parseContext(context)
+ 	    if (isUrl(card.name)) {
+		    appendCard(card.name, card.quantity)
+		    return
+	    } 
+        const url = baseUrl + encodeURI(card.name)
         fetch(url).then(response => response.json())
             .then(data => appendCards(getCardImageUrls(data, card.name, card.edition), card.quantity))
             .catch(e => console.log(`Booo:\n ${e}`))
     });
 }
+
 
 function renderDeck() {
     const value = document.querySelector('.cards').value.trim();
