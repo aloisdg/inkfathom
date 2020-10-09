@@ -97,6 +97,10 @@ main img {
 }
 
 @media print {
+    .overflow-y {
+        overflow-y: initial;
+    }
+
     header, h1 {
         display: none;
     }
