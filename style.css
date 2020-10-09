@@ -46,30 +46,13 @@ button {
   margin-right: 0;
 }
 
-textarea {
-  min-width: 100%;
-  max-width: 100%;
-  resize: vertical;
-}
-
 main {
-    /*position: relative;*/
     font-size: 0;
-    margin: 60px auto;
-    width: 90%;
 }
 
 main img {
     height: auto;
     transition: all 0.5s;
-}
-
-.title {
-    margin-right: 1em;
-}
-
-.cards {
-    flex: 1;
 }
 
 .noGutter {
