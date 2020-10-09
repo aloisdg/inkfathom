@@ -91,7 +91,7 @@ function fill(value) {
     value.split('\n').forEach(context => {
         const card = parseContext(context)
  	    if (isUrl(card.name)) {
-		    appendCard(card.name, card.quantity)
+		    appendCards([card.name], card.quantity)
 		    return
 	    } 
         const url = baseUrl + encodeURI(card.name)
