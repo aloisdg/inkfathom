@@ -107,7 +107,7 @@ main img {
 
 @media screen and (min-width : 480px) {
   body {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: auto 1fr;
   }
 }
