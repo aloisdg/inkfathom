@@ -124,6 +124,8 @@ if (locationHref.search) {
 
 document.querySelector('.print')
     .addEventListener('click', function () {
+   const value = document.querySelector('.cards').value.trim();
+   	if (value === '') return;
         window.focus()
         window.print()
     }, false)
