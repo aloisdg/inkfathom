@@ -1,5 +1,3 @@
-// http://tappedout.net/mtg-forum/general/site-where-you-can-automatically-formatprint-off-a-whole-deck/ !com
-
 let deckElement = document.querySelector(".deck");
 const baseUrl = "https://api.scryfall.com/cards/search?q=name=";
 
@@ -63,17 +61,17 @@ function getCardImageUrls(data, name, setId) {
 }
 
 function appendCards(sources, quantity) {
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    sources.forEach(source => {
-        for (i = 0; i < quantity; i++) {
-            let img = document.createElement("img")
-            img.crossOrigin = "anonymous";
-            img.setAttribute("src", proxyurl + source)
-            img.classList.add('noGutter')
-            img.classList.add('smallSize')
-            deckElement.appendChild(img)
-        }
-    });
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  sources.forEach((source) => {
+    for (i = 0; i < quantity; i++) {
+      let img = document.createElement("img");
+      img.crossOrigin = "anonymous";
+      img.setAttribute("src", proxyurl + source);
+      img.classList.add("noGutter");
+      img.classList.add("normalSize");
+      deckElement.appendChild(img);
+    }
+  });
 }
 
 function clean() {
@@ -222,7 +220,6 @@ function getCardSize(sizeClass) {
 
 function print() {
   const imgs = document.querySelectorAll(".deck img");
-  const base64Images = [...imgs].map(getBase64Image);
   const deckSize = imgs.length;
 
   const sizeClass = [...imgs[0].classList].filter((x) => x.includes("Size"))[0];
@@ -234,6 +231,9 @@ function print() {
   )[0];
   const gutter = getGutter(gutterClass);
 
+  const base64Images = [...imgs].map((img) =>
+    getBase64Image(img, card.width, card.height)
+  );
   const cardPositions = getCardPositions(
     deckSize,
     card.width,
@@ -256,13 +256,16 @@ function print() {
   saveAspdf(doc, deckSize, card.name);
 }
 
-function getBase64Image(img) {
+function getBase64Image(img, width, height) {
+  const classes = img.className;
+  img.className = "";
   var canvas = document.createElement("canvas");
   canvas.width = img.width;
   canvas.height = img.height;
   var ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0);
   var dataURL = canvas.toDataURL("image/jpg");
+  img.className = classes;
   return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 }
 
