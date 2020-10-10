@@ -187,10 +187,10 @@ function saveAspdf(doc, deckSize, cardName) {
 }
 
 function getGutter(gutterClass) {
-  if (gutterClass === "boldGutter") {
+  if (gutterClass === "smallGutter") {
     return 1;
   }
-  if (gutterClass === "lightGutter") {
+  if (gutterClass === "tinyGutter") {
     return 0.5;
   }
   return 0;
