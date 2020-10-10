@@ -19,8 +19,23 @@
 3 Ashiok, Nightmare Muse
 </textarea>
     <button class="display">&#128270;</button>
-    <button class="size">&#9974;</button>
-    <button class="grid">𐄹</button>
+    <select class="size">
+      <option value="magnumGold">Magnum Gold (80x120: Dixit)</option>
+      <option value="magnumSilver">Magnum Silver (70x110: Lost Cities)</option>
+      <option value="magnumCopper">Magnum Copper (65x100: 7 Wonders)</option>
+      <option selected="selected" value="stdCardUsaGame">Std Card USA Game (63x88: MTG)</option>
+      <option value="euroSize">Euro Size (59x92: Dominion)</option>
+      <option value="chimera">Chimera (57x89: most FFG Games)</option>
+      <option value="stdUsa">Std USA (56x87: Bang!, Munchkin)</option>
+      <option value="miniEuro">Mini Euro (45x68: TTR-USA)</option>
+      <option value="miniChimera">Mini Chimera (43x65)</option>
+      <option value="miniUsa">Mini Usa (41x63)</option>
+    </select>
+    <select class="gutter">
+      <option>No gutter</option>
+      <option>Tiny gutter</option>
+      <option>Small gutter</option>
+    </select>
     <button class="print">&#128424;</button>
   </header>
   <main class="deck overflow-y ml-2 mr-4">
