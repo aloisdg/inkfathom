@@ -59,7 +59,7 @@ main {
  margin-right: 1rem; 
 }
 
-button {
+button, select {
   margin-right: 0;
 }
 
@@ -69,19 +69,19 @@ main {
 
 main img {
     height: auto;
-    transition: all 0.5s;
+    transition: all 0.3s;
 }
 
 .noGutter {
     margin: 0;
 }
 
-.lightGutter {
+.tinyGutter {
     margin: 0 2px 2px 0;
 }
 
-.boldGutter {
-    margin: 0 6px 6px 0px;
+.smallGutter {
+    margin: 0 4px 4px 0px;
 }
 
 .tinySize {

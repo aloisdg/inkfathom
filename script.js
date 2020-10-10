@@ -288,67 +288,39 @@ if (locationHref.search) {
   renderDeck();
 }
 
-document.querySelector(".print").addEventListener(
-  "click",
+document.querySelector(".print").onclick = 
   function () {
     const value = document.querySelector(".cards").value.trim();
     if (value === "") return;
     print();
-  },
-  false
-);
+  };
 
-document.querySelector(".display").addEventListener(
-  "click",
-  function () {
-    renderDeck();
-  },
-  false
-);
+document.querySelector(".display").onclick = renderDeck;
 
-const gutters = ["noGutter", "lightGutter", "boldGutter"];
-const sizes = ["tinySize", "smallSize", "normalSize"];
-// wtf classList is not iterable with filter
-// let gutter = imgs[0].classList.filter(x => x.endsWith('Gutter'))
-document.querySelector(".grid").addEventListener(
-  "click",
-  function () {
-    let imgs = document.querySelectorAll(".deck img");
-    if (imgs.length == 0) return;
-    let style = imgs[0]
-      .getAttribute("class")
-      .split(" ")
-      .find((x) => x.endsWith("Gutter"));
-    imgs.forEach((img) => {
-      img.classList.remove(style);
-      img.classList.add(gutters[(gutters.indexOf(style) + 1) % gutters.length]);
-    });
-  },
-  false
-);
+document.querySelector(".gutter").onchange = function (e) {
+  let imgs = document.querySelectorAll(".deck img");
+  if (imgs.length == 0) return;
+  const previous = e.target.dataset.gutter ?? "noGutter";
+  console.log(previous);
+  console.log(e.target.value);
 
-document.querySelector(".size").addEventListener(
-  "click",
-  function () {
-    let imgs = document.querySelectorAll(".deck img");
-    if (imgs.length == 0) return;
-    let style = imgs[0]
-      .getAttribute("class")
-      .split(" ")
-      .find((x) => x.endsWith("Size"));
-    imgs.forEach((img) => {
-      img.classList.remove(style);
-      img.classList.add(sizes[(sizes.indexOf(style) + 1) % sizes.length]);
-    });
-  },
-  false
-);
+  imgs.forEach((img) => {
+    img.classList.remove(previous);
+    img.classList.add(e.target.value);
+  });
+  e.target.dataset.gutter = e.target.value;
+};
 
-document.querySelector("h1").addEventListener(
-  "click",
-  function () {
-    document.querySelector(".cards").value =
-      "4 Soul Warden\n4 Burning-Tree Emissary\n4 Avacyn's Pilgrim\n4 Darkness\n4 Annul";
-  },
-  false
-);
+document.querySelector(".size").onchange = function (e) {
+  let imgs = document.querySelectorAll(".deck img");
+  if (imgs.length == 0) return;
+  const previous = e.target.dataset.size ?? "normalSize";
+  console.log(previous);
+  console.log(e.target.value);
+
+  imgs.forEach((img) => {
+    img.classList.remove(previous);
+    img.classList.add(e.target.value);
+  });
+  e.target.dataset.size = e.target.value;
+};
