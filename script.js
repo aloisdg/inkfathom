@@ -63,16 +63,17 @@ function getCardImageUrls(data, name, setId) {
 }
 
 function appendCards(sources, quantity) {
-  sources.forEach((source) => {
-    for (i = 0; i < quantity; i++) {
-      let img = document.createElement("img");
-      img.crossOrigin = "anonymous";
-      img.setAttribute("src", source);
-      img.classList.add("noGutter");
-      img.classList.add("smallSize");
-      deckElement.appendChild(img);
-    }
-  });
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    sources.forEach(source => {
+        for (i = 0; i < quantity; i++) {
+            let img = document.createElement("img")
+            img.crossOrigin = "anonymous";
+            img.setAttribute("src", proxyurl + source)
+            img.classList.add('noGutter')
+            img.classList.add('smallSize')
+            deckElement.appendChild(img)
+        }
+    });
 }
 
 function clean() {
