@@ -301,9 +301,6 @@ document.querySelector(".gutter").onchange = function (e) {
   let imgs = document.querySelectorAll(".deck img");
   if (imgs.length == 0) return;
   const previous = e.target.dataset.gutter ?? "noGutter";
-  console.log(previous);
-  console.log(e.target.value);
-
   imgs.forEach((img) => {
     img.classList.remove(previous);
     img.classList.add(e.target.value);
@@ -315,9 +312,6 @@ document.querySelector(".size").onchange = function (e) {
   let imgs = document.querySelectorAll(".deck img");
   if (imgs.length == 0) return;
   const previous = e.target.dataset.size ?? "normalSize";
-  console.log(previous);
-  console.log(e.target.value);
-
   imgs.forEach((img) => {
     img.classList.remove(previous);
     img.classList.add(e.target.value);
