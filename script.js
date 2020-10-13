@@ -68,6 +68,10 @@ function getCardImageUrls(data, name, setId) {
 function getTokenImageUrls(data, name) {
   if (data.name === undefined) return [];
   if (data.name === name && data.layout === "token") return [ data.image_uris.large ];
+  if (data.layout === "double_faced_token") {
+    var face = data.card_faces.find(f => f.name === name);
+    return face === undefined ? [] : [ face.image_uris.large ];
+  }
   return [];
 }
 
