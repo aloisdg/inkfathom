@@ -1,5 +1,10 @@
 let deckElement = document.querySelector(".deck");
-const baseUrl = "https://api.scryfall.com/cards/search?q=name=";
+const baseUrl = "https://api.scryfall.com";
+const cardPath = "/cards/search?q=name=";
+const tokenPath = "/cards/named?exact=";
+
+const getCardUrl = cardName => `${baseUrl}${cardPath}${encodeURI(cardName)}`;
+const getTokenUrl = cardName => `${baseUrl}${tokenPath}${encodeURI(cardName)}`;
 
 function extracts(input, from, to) {
   const start = input.indexOf(from) + from.length;
@@ -60,6 +65,14 @@ function getCardImageUrls(data, name, setId) {
   ];
 }
 
+function getTokenImageUrls(data, name) {
+  if (data.name === undefined) return [];
+  if (data.name === name && data.layout === "token") return [ data.image_uris.large ];
+  if (data.layout !== "double_faced_token") return []; 
+  const face = data.card_faces.find(f => f.name === name);
+  return face === undefined ? [] : [ face.image_uris.large ];
+}
+
 function appendCards(sources, quantity) {
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
   sources.forEach((source) => {
@@ -91,19 +104,21 @@ function isUrl(str) {
   return !!pattern.test(str);
 }
 
-function fill(value) {
+function fill(value, isToken=false) {
   value.split("\n").forEach((context) => {
     const card = parseContext(context);
     if (isUrl(card.name)) {
       appendCards([card.name], card.quantity);
       return;
     }
-    const url = baseUrl + encodeURI(card.name);
+    const url = isToken ? getTokenUrl(card.name) : getCardUrl(card.name);
     fetch(url)
       .then((response) => response.json())
       .then((data) =>
         appendCards(
-          getCardImageUrls(data, card.name, card.edition),
+          isToken ? 
+            getTokenImageUrls(data, card.name)
+            : getCardImageUrls(data, card.name, card.edition),
           card.quantity
         )
       )
@@ -271,10 +286,12 @@ function getBase64Image(img, width, height) {
 
 function renderDeck() {
   const value = document.querySelector(".cards").value.trim();
-  if (value === "") return;
+  const extraTokens = document.querySelector("#extra_tokens").value.trim();
+  if (value === "" && extraTokens === "") return;
 
   clean();
   fill(value);
+  fill(extraTokens, true);
 }
 
 // const context = document.querySelector('.card').textContent;
