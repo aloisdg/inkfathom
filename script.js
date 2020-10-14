@@ -3,8 +3,8 @@ const baseUrl = "https://api.scryfall.com";
 const cardPath = "/cards/search?q=name=";
 const tokenPath = "/cards/named?exact=";
 
-function getCardUrl(cardName) { return baseUrl + cardPath + encodeURI(cardName); }
-function getTokenUrl(cardName) { return baseUrl + tokenPath + encodeURI(cardName); }
+const getCardUrl = cardName => `${baseUrl}${cardPath}${encodeURI(cardName)}`;
+const getTokenUrl = cardName => `${baseUrl}${tokenPath}${encodeURI(cardName)}`;
 
 function extracts(input, from, to) {
   const start = input.indexOf(from) + from.length;
@@ -68,11 +68,9 @@ function getCardImageUrls(data, name, setId) {
 function getTokenImageUrls(data, name) {
   if (data.name === undefined) return [];
   if (data.name === name && data.layout === "token") return [ data.image_uris.large ];
-  if (data.layout === "double_faced_token") {
-    var face = data.card_faces.find(f => f.name === name);
-    return face === undefined ? [] : [ face.image_uris.large ];
-  }
-  return [];
+  if (data.layout !== "double_faced_token") return []; 
+  const face = data.card_faces.find(f => f.name === name);
+  return face === undefined ? [] : [ face.image_uris.large ];
 }
 
 function appendCards(sources, quantity) {
