@@ -294,17 +294,6 @@ function renderDeck() {
   fill(extraTokens, true);
 }
 
-// const context = document.querySelector('.card').textContent;
-// const card = parseContext(context);
-// const url = baseUrl + encodeURI(card.name);
-
-const locationHref = new URL(window.location.href);
-if (locationHref.search) {
-  const searchParams = new URLSearchParams(locationHref.search);
-  document.getElementById("cards").value = searchParams.get("cards");
-  renderDeck();
-}
-
 document.querySelector(".print").onclick = 
   function () {
     const value = document.querySelector(".cards").value.trim();
@@ -335,3 +324,15 @@ document.querySelector(".size").onchange = function (e) {
   });
   e.target.dataset.size = e.target.value;
 };
+
+
+// const context = document.querySelector('.card').textContent;
+// const card = parseContext(context);
+// const url = baseUrl + encodeURI(card.name);
+
+const locationHref = new URL(window.location.href);
+if (locationHref.search) {
+  const searchParams = new URLSearchParams(locationHref.search);
+  document.getElementById("cards").value = searchParams.get("cards");
+}
+renderDeck();
