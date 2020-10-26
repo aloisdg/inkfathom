@@ -99,10 +99,10 @@ function appendCards(sources, quantity) {
       img.dataset.custom = source.custom;
       if (!source.custom) {
           img.dataset.name = source.name;
-          img.dataset.cost = source.mana_cost;
-          img.dataset.loyalty = source.loyalty;
-          img.dataset.power = source.power;
-          img.dataset.toughness = source.toughness;
+          img.dataset.cost = source.cost;
+          if (source.loyalty) img.dataset.loyalty = source.loyalty;
+          if (source.power) img.dataset.power = source.power;
+          if (source.toughness) img.dataset.toughness = source.toughness;
       }
       deckElement.appendChild(img);
     }
