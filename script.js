@@ -402,7 +402,7 @@ document.querySelector(".cardAs").onchange = function (e) {
     .forEach((img) => {
       img.src = e.target.value === "image"
         ? img.dataset.src
-        : createCardAsText(img.dataset.name, img.dataset.cost, img.dataset.loyalty ?? (img.dataset.power.length && img.dataset.toughness ? `${img.dataset.power} / ${img.dataset.toughness}` : ""));
+        : createCardAsText(img.dataset.name, img.dataset.cost, img.dataset.loyalty ?? (img.dataset.power && img.dataset.toughness ? `${img.dataset.power} / ${img.dataset.toughness}` : ""));
     });
 };
 
