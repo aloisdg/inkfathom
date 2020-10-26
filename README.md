@@ -8,7 +8,7 @@ MTG is a great game. A great but expensive game. I can't afford to pay for a car
 
 Proxies are acceptable in most casual game, so lets go to the printer and brrrr. Since I couldn't find a proxy maker suiting my need, I made my own. I don't want to keep copy/paste image in a document editor (Libre Office, Microsoft Word, or whatever).
 
-[mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like Tolarian Copyshop too. I create a comparaison table, feel free to open an issue if I missed anything:
+[mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like [Tolarian Copyshop](https://bitbucket.org/tolarianlibrarians/mtg-tolarian-copyshop/downloads/) too. I create a comparaison table, feel free to open an issue if I missed anything:
 
 |                              | ~         | mtgprint | proxymtg | tolarian copyshop |
 |------------------------------|-----------|----------|----------|-------------------|
