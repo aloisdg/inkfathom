@@ -215,6 +215,13 @@ const buildPdf = (
       doc.addPage();
     }
   });
+  
+  if (document.querySelector(".decklist").value === "with") {
+    doc.addPage();
+    doc.setFontSize(40);
+    // note: no token for now;
+    doc.text(marginLeft, marginTop, document.querySelector(".cards").value.trim());
+  }
   return doc;
 };
 
