@@ -70,6 +70,7 @@ main {
 main img {
     height: auto;
     transition: all 0.3s;
+    border-radius: 12px;
 }
 
 .noGutter {
