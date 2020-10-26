@@ -126,8 +126,9 @@ function isUrl(str) {
   return !!pattern.test(str);
 }
 
+const keywords = ["Deck", "Sideboard", "Maybeboard"];  
 function fill(value, isToken=false) {
-  value.split("\n").forEach((context) => {
+  [...value.split("\n")].filter(line => !keywords.includes(line.trim())).forEach((context) => {
     const card = parseContext(context);
     if (isUrl(card.name)) {
       appendCards([{source: card.name, custom: true}], card.quantity);
