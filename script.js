@@ -79,10 +79,10 @@ function getCardImageUrls(data, name) {
 function getTokenImageUrls(data, name) {
   const cardData = data.data.filter((x) => x.name === name)[0];
   if (cardData.name === undefined) return [];
-  if (cardData.name === name && cardData.layout === "token") return [ cardData.image_uris.large ];
+  if (cardData.name === name && cardData.layout === "token") return [ buildCardDataset(cardData) ];
   if (cardData.layout !== "double_faced_token") return []; 
   const face = cardData.card_faces.find(f => f.name === name);
-  return face === undefined ? [] : [ face.image_uris.large ];
+  return face === undefined ? [] : [ buildCardDataset(face) ];
 }
 
 function appendCards(sources, quantity) {
