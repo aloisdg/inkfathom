@@ -54,9 +54,8 @@ function selectIllustration(illustrations) {
   return selectRandomItems(illustrations).image_url;
 }
 
-function getCardImageUrls(data, name, setId) {
+function getCardImageUrls(data, name) {
   // todo: should we handle name case?
-  // todo: allow to get a specific edition card
   const cardData = data.data.filter((x) => x.name === name)[0];
   if (cardData.card_faces === undefined) return [cardData.image_uris.large];
   return [
@@ -66,10 +65,11 @@ function getCardImageUrls(data, name, setId) {
 }
 
 function getTokenImageUrls(data, name) {
-  if (data.name === undefined) return [];
-  if (data.name === name && data.layout === "token") return [ data.image_uris.large ];
-  if (data.layout !== "double_faced_token") return []; 
-  const face = data.card_faces.find(f => f.name === name);
+  const cardData = data.data.filter((x) => x.name === name)[0];
+  if (cardData.name === undefined) return [];
+  if (cardData.name === name && cardData.layout === "token") return [ cardData.image_uris.large ];
+  if (cardData.layout !== "double_faced_token") return []; 
+  const face = cardData.card_faces.find(f => f.name === name);
   return face === undefined ? [] : [ face.image_uris.large ];
 }
 
