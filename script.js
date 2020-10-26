@@ -3,8 +3,8 @@ const baseUrl = "https://api.scryfall.com/cards/search?q=";
 const cardPath = "name=";
 const tokenPath = "t:token%20name=";
 
-const getCardUrl = (cardName, set) => `${baseUrl}${cardPath}${encodeURI(cardName)}` + !!set ? `%20set:${set}` : '';
-const getTokenUrl = (cardName, set) => `${baseUrl}${tokenPath}${encodeURI(cardName)}` + !!set ? `%20set:${set}` : '';
+const getCardUrl = (cardName, set) => `${baseUrl}${cardPath}${encodeURI(cardName)}${(!!set ? `%20set:${set}` : '')}`;
+const getTokenUrl = (cardName, set) => `${baseUrl}${tokenPath}${encodeURI(cardName)}${(!!set ? `%20set:${set}` : '')}`;
 
 function extracts(input, from, to) {
   const start = input.indexOf(from) + from.length;
