@@ -1,10 +1,10 @@
 let deckElement = document.querySelector(".deck");
-const baseUrl = "https://api.scryfall.com";
-const cardPath = "/cards/search?q=name=";
-const tokenPath = "/cards/named?exact=";
+const baseUrl = "https://api.scryfall.com/cards/search?q=";
+const cardPath = "name=";
+const tokenPath = "t:token%20name=";
 
-const getCardUrl = cardName => `${baseUrl}${cardPath}${encodeURI(cardName)}`;
-const getTokenUrl = cardName => `${baseUrl}${tokenPath}${encodeURI(cardName)}`;
+const getCardUrl = (cardName, set) => `${baseUrl}${cardPath}${encodeURI(cardName)}` + !!set ? `%20set:${set}` : '';
+const getTokenUrl = (cardName, set) => `${baseUrl}${tokenPath}${encodeURI(cardName)}` + !!set ? `%20set:${set}` : '';
 
 function extracts(input, from, to) {
   const start = input.indexOf(from) + from.length;
@@ -30,12 +30,12 @@ function parseContext(contextWithStars) {
   var distance =
     (context.includes(" (") ? context.indexOf(" (") : context.length) - start;
   const name = context.substr(start, distance);
-  const edition = extracts(context, "(", ")");
+  const set = extracts(context, "(", ")");
 
   return {
     name: name,
     quantity: quantity,
-    edition: edition,
+    set: set,
   };
 }
 
@@ -111,7 +111,7 @@ function fill(value, isToken=false) {
       appendCards([card.name], card.quantity);
       return;
     }
-    const url = isToken ? getTokenUrl(card.name) : getCardUrl(card.name);
+    const url = isToken ? getTokenUrl(card.name) : getCardUrl(card.name, card.set);
     fetch(url)
       .then((response) => response.json())
       .then((data) =>
