@@ -12,6 +12,12 @@ Alternatives include [mtgpress.net](http://www.mtgpress.net/), [proxymtg](http:/
 
 ## Changelog
 
+### 2020-10-26
+
+* Handle tokens from URL #29
+* Resize custom artwork before printing #31
+* Add a printer friendly mode #17
+
 ### 2020-10-09
 
 * Manage doubled-faced cards #10
