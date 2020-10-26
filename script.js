@@ -334,5 +334,6 @@ const locationHref = new URL(window.location.href);
 if (locationHref.search) {
   const searchParams = new URLSearchParams(locationHref.search);
   document.getElementById("cards").value = searchParams.get("cards");
+  document.getElementById("extra_tokens").value = searchParams.get("tokens");
 }
 renderDeck();
