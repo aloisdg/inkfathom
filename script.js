@@ -111,7 +111,7 @@ function fill(value, isToken=false) {
       appendCards([card.name], card.quantity);
       return;
     }
-    const url = isToken ? getTokenUrl(card.name) : getCardUrl(card.name, card.set);
+    const url = isToken ? getTokenUrl(card.name, card.set) : getCardUrl(card.name, card.set);
     fetch(url)
       .then((response) => response.json())
       .then((data) =>
