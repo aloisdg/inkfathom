@@ -376,21 +376,21 @@ function drawBottomRight(ctx, canvasWidth, canvasHeight, value) {
 }
 
 function createCardAsText(cardName, cardCost, bottomValue) {
-var canvas = document.createElement('canvas');
-var ctx = canvas.getContext('2d');
-canvas.width = 63*4;
-canvas.height = 88*4;
-canvas.style.width = "63mm";
-canvas.style.height = "88mm";
-ctx.clearRect(0, 0, canvas.width,canvas.height);
-ctx.fillStyle = 'rgb(255,255,255)';
-ctx.fillRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle = 'rgb(0,0,0)';
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = 63*4;
+  canvas.height = 88*4;
+  canvas.style.width = "63mm";
+  canvas.style.height = "88mm";
+  ctx.clearRect(0, 0, canvas.width,canvas.height);
+  ctx.fillStyle = 'rgb(255,255,255)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = 'rgb(0,0,0)';
 
-const lines = cardName.split(' ');
-drawTitle(ctx, lines);
-drawCmc(ctx, canvas.width, cardCost);
-drawBottomRight(ctx, canvas.width, canvas.height, bottomValue);
+  const lines = cardName.split(' ');
+  drawTitle(ctx, lines);
+  drawCmc(ctx, canvas.width, cardCost);
+  drawBottomRight(ctx, canvas.width, canvas.height, bottomValue);
   return canvas.toDataURL('image/jpeg', 1.0);
 }
 
@@ -398,7 +398,7 @@ document.querySelector(".cardAs").onchange = function (e) {
   let imgs = document.querySelectorAll(".deck img");
   if (imgs.length == 0) return;
   [...imgs]
-    .filter(img => !img.dataset.custom)
+    .filter(img => img.dataset.custom === "false")
     .forEach((img) => {
       img.src = e.target.value === "image"
         ? img.dataset.src
