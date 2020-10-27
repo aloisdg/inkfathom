@@ -97,6 +97,18 @@ main img {
     width: 63mm;
 }
 
+.grid {
+    display: grid;
+}
+
+.auto-cols-max {
+    grid-auto-columns: max-content;
+}
+
+.grid-flow-col {
+    grid-auto-flow: column;
+}
+
 @media print {
     .overflow-y {
         overflow-y: initial;
