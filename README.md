@@ -19,7 +19,7 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 | is open source               | ✔️         | ❌        | ❌        | ✔️                 |
 | is online                    | ✔️         | ✔️        | ✔️        | ❌                 |
 | is cross plateform           | ✔️         | ✔️        | ✔️        | ❌                 |
-| is responsive                | [🚧 WIP](https://github.com/aloisdg/diab/issues/39)         | ✔️        | ✔️        | ❌                 |
+| is responsive                | ✔️         | ✔️        | ✔️        | ❌                 |
 | is community-driven<sup>2</sup> | ✔️         | ❌        | ❌        | ❌                 |
 | support text-only            | ✔️         | ❌        | ❌        | [🚧 WIP](https://trello.com/c/fu3vex2u/72-text-only-print-option)         |
 | support token                | ✔️         | ✔️        | ✔️        | ?                 |
