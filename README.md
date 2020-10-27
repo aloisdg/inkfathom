@@ -28,7 +28,7 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 | support different paper size | [🚧 WIP](https://github.com/aloisdg/diab/issues/23) | ✔️        | ❌        | ?                 |
 | can specificy a set          | ✔️         | ✔️        | ?        | ✔️                 |
 | can skip basic land          | [🚧 WIP](https://github.com/aloisdg/diab/issues/19) | ✔️        | ?        | ?                 |
-| can print decklist           | [🚧 WIP](https://github.com/aloisdg/diab/issues/34) | ✔️        | ❌        | ?                 |
+| can print decklist           | ✔️ | ✔️        | ❌        | ?                 |
 
 1. ublock origin wont block anything on the page.
 1. Anyone can contribute, participate, submit issue, etc. as long as you follow our code of conduct.
