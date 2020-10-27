@@ -190,6 +190,12 @@ const getCardPositions = (
   });
 };
 
+function getFilenameFromUrl(url) {
+  const pathname = new URL(url).pathname;
+  const index = pathname.lastIndexOf('/');
+  return (-1 !== index) ? pathname.substring(index + 1) : pathname;
+}
+
 const buildPdf = (
   base64Images,
   cardPositions,
@@ -217,10 +223,11 @@ const buildPdf = (
   });
   
   if (document.querySelector(".decklist").value === "with") {
+    const text = document.querySelector(".cards").value.trim().split('\n').map(x => isUrl(x) ? getFilenameFromUrl(x) : x).join('\n');
     doc.addPage();
-    doc.setFontSize(40);
+    doc.setFontSize(22);
     // note: no token for now;
-    doc.text(marginLeft, marginTop, document.querySelector(".cards").value.trim());
+    doc.text(marginLeft, marginTop, text);
   }
   return doc;
 };
