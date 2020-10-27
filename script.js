@@ -226,7 +226,7 @@ const buildPdf = (
     const text = document.querySelector(".cards").value.trim().split('\n').map(x => {
       if (!x.includes("http")) return x;
       const url = x.substr(x.indexOf('http'));
-      return isUrl(url) ? getFilenameFromUrl(x) : x;
+      return isUrl(url) ? x.substr(0, x.indexOf('http')) + getFilenameFromUrl(url) : x;
     }).join('\n');
     doc.addPage();
     doc.setFontSize(22);
