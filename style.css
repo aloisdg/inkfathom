@@ -31,6 +31,10 @@ header > * {
   margin-bottom: 0.5rem;
 }
 
+button {
+  margin-bottom: 0;
+}
+
 main {
   grid-column: 2;
 }
