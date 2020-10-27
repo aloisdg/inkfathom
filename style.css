@@ -41,7 +41,7 @@ main {
 }
 
 .overflow-y {
-    overflow-y: auto;
+    overflow-y: initial;
 }
 
 .m-4 {
@@ -145,4 +145,8 @@ main img {
     grid-row: 2;
     grid-column: 2;
   }
+
+    .overflow-y {
+        overflow-y: auto;
+    }
 }
