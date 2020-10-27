@@ -27,7 +27,7 @@ header {
   grid-row: 2;
 }
 
-header * {
+header > * {
   margin-bottom: 0.5rem;
 }
 
@@ -101,8 +101,8 @@ main img {
     display: grid;
 }
 
-.auto-cols-max {
-    grid-auto-columns: max-content;
+.gap {
+    gap: 0.5rem;
 }
 
 .grid-flow-col {
