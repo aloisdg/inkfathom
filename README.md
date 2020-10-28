@@ -1,16 +1,46 @@
 # diab
 
-Deck In A Bottle is a webapp to format and display a mtg deck in the goal to create proxies.
-
-[live](https://aloisdg.github.io/diab/)
+Deck In A Bottle is a webapp to format and display a mtg deck to create proxies. [Try it Online!](https://aloisdg.github.io/diab/)
 
 ## Motive
 
-MTG is a great game. A great but expensive game. I can't afford to pay for a card I wont like after two or three game. Sometimes we have to try one to know. Proxies are acceptable in most casual game. Since I can't find a deck creator suiting my need, I made one. I don't want to keep copy/paste image in a document editor (Libre Office, Microsoft Word, or whatever). Here we go.
+MTG is a great game. A great but expensive game. I can't afford to pay for a card I wont like after two or three games. Sometimes we have to try make our mind.
 
-Alternatives include [mtgpress.net](http://www.mtgpress.net/), [proxymtg](http://proxymtg.net/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/).
+Proxies are acceptable in most casual game, so lets go to the printer and brrrr. Since I couldn't find a proxy maker suiting my need, I made my own. I don't want to keep copy/paste image in a document editor (Libre Office, Microsoft Word, or whatever).
+
+[mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like [Tolarian Copyshop](https://bitbucket.org/tolarianlibrarians/mtg-tolarian-copyshop/downloads/) too. I create a comparaison table, feel free to open an issue if I missed anything:
+
+|                              | ~         | mtgprint | proxymtg | tolarian copyshop |
+|------------------------------|-----------|----------|----------|-------------------|
+| has a good name              | [🚧 WIP](https://github.com/aloisdg/diab/issues/22) | ✔️        | ✔️        | ✔️                 |
+| is free                      | ✔️         | ✔️        | ✔️        | ✔️                 |
+| is ad-free                   | ✔️         | ✔️        | ✔️        | ✔️                 |
+| is privacy friendly<sup>1</sup> | ✔️         | ❌        | ❌        | ✔️                 |
+| is open source               | ✔️         | ❌        | ❌        | ✔️                 |
+| is online                    | ✔️         | ✔️        | ✔️        | ❌                 |
+| is cross plateform           | ✔️         | ✔️        | ✔️        | ❌                 |
+| is responsive                | ✔️         | ✔️        | ✔️        | ❌                 |
+| is community-driven<sup>2</sup> | ✔️         | ❌        | ❌        | ❌                 |
+| support text-only            | ✔️         | ❌        | ❌        | [🚧 WIP](https://trello.com/c/fu3vex2u/72-text-only-print-option)         |
+| support token                | ✔️         | ✔️        | ✔️        | ?                 |
+| support flip card            | ✔️         | ✔️        | ❌        | [🚧 WIP](https://trello.com/c/aesAIHhO/73-print-front-and-backside-of-double-faced-cards)                 |
+| support custom card          | ✔️         | ❌        | ❌        | ?                 |
+| support different card size  | ✔️         | ✔️        | ❌        | ?                 |
+| support different paper size | [🚧 WIP](https://github.com/aloisdg/diab/issues/23) | ✔️        | ❌        | ?                 |
+| can specificy a set          | ✔️         | ✔️        | ?        | ✔️                 |
+| can skip basic land          | [🚧 WIP](https://github.com/aloisdg/diab/issues/19) | ✔️        | ?        | ?                 |
+| can print decklist           | ✔️ | ✔️        | ❌        | ?                 |
+
+1. ublock origin wont block anything on the page.
+1. Anyone can contribute, participate, submit issue, etc. as long as you follow our code of conduct.
 
 ## Changelog
+
+### 2020-10-26
+
+* Handle tokens from URL #29
+* Resize custom artwork before printing #31
+* Add a printer friendly mode #17
 
 ### 2020-10-09
 
