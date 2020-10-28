@@ -26,7 +26,7 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 | support flip card            | ✔️         | ✔️        | ❌        | [🚧 WIP](https://trello.com/c/aesAIHhO/73-print-front-and-backside-of-double-faced-cards)                 |
 | support custom card          | ✔️         | ❌        | ❌        | ?                 |
 | support different card size  | ✔️         | ✔️        | ❌        | ?                 |
-| support different paper size | [🚧 WIP](https://github.com/aloisdg/diab/issues/23) | ✔️        | ❌        | ?                 |
+| support different paper size | ✔️ | ✔️        | ❌        | ?                 |
 | can specificy a set          | ✔️         | ✔️        | ?        | ✔️                 |
 | can skip basic land          | [🚧 WIP](https://github.com/aloisdg/diab/issues/19) | ✔️        | ?        | ?                 |
 | can print decklist           | ✔️ | ✔️        | ❌        | ?                 |
