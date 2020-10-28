@@ -3,8 +3,12 @@ const baseUrl = "https://api.scryfall.com/cards/search?q=";
 const cardPath = "name=";
 const tokenPath = "t:token%20name=";
 
-const getCardUrl = (cardName, set) => `${baseUrl}${cardPath}${encodeURI(cardName)}${(!!set ? `%20set:${set}` : '')}`;
-const getTokenUrl = (cardName, set) => `${baseUrl}${tokenPath}${encodeURI(cardName)}${(!!set ? `%20set:${(set.length === 3 ? 't' : '')}${set}` : '')}`;
+const getCardUrl = (cardName, set) =>
+  `${baseUrl}${cardPath}${encodeURI(cardName)}${!!set ? `%20set:${set}` : ""}`;
+const getTokenUrl = (cardName, set) =>
+  `${baseUrl}${tokenPath}${encodeURI(cardName)}${
+    !!set ? `%20set:${set.length === 3 ? "t" : ""}${set}` : ""
+  }`;
 
 function extracts(input, from, to) {
   const start = input.indexOf(from) + from.length;
@@ -56,14 +60,14 @@ function selectIllustration(illustrations) {
 
 function buildCardDataset(cardData) {
   return {
-      custom: false,
-      name: cardData.name,
-      cost: cardData.mana_cost,
-      loyalty: cardData.loyalty,
-      power: cardData.power,
-      toughness: cardData.toughness,
-      source: cardData.image_uris.large
-    };
+    custom: false,
+    name: cardData.name,
+    cost: cardData.mana_cost,
+    loyalty: cardData.loyalty,
+    power: cardData.power,
+    toughness: cardData.toughness,
+    source: cardData.image_uris.large,
+  };
 }
 
 function getCardImageUrls(data, name) {
@@ -72,17 +76,18 @@ function getCardImageUrls(data, name) {
   if (cardData.card_faces === undefined) return [buildCardDataset(cardData)];
   return [
     buildCardDataset(cardData.card_faces[0]),
-    buildCardDataset(cardData.card_faces[1])
+    buildCardDataset(cardData.card_faces[1]),
   ];
 }
 
 function getTokenImageUrls(data, name) {
   const cardData = data.data.filter((x) => x.name === name)[0];
   if (cardData.name === undefined) return [];
-  if (cardData.name === name && cardData.layout === "token") return [ buildCardDataset(cardData) ];
-  if (cardData.layout !== "double_faced_token") return []; 
-  const face = cardData.card_faces.find(f => f.name === name);
-  return face === undefined ? [] : [ buildCardDataset(face) ];
+  if (cardData.name === name && cardData.layout === "token")
+    return [buildCardDataset(cardData)];
+  if (cardData.layout !== "double_faced_token") return [];
+  const face = cardData.card_faces.find((f) => f.name === name);
+  return face === undefined ? [] : [buildCardDataset(face)];
 }
 
 function appendCards(sources, quantity) {
@@ -98,11 +103,11 @@ function appendCards(sources, quantity) {
       img.dataset.src = src;
       img.dataset.custom = source.custom;
       if (!source.custom) {
-          img.dataset.name = source.name;
-          img.dataset.cost = source.cost;
-          if (source.loyalty) img.dataset.loyalty = source.loyalty;
-          if (source.power) img.dataset.power = source.power;
-          if (source.toughness) img.dataset.toughness = source.toughness;
+        img.dataset.name = source.name;
+        img.dataset.cost = source.cost;
+        if (source.loyalty) img.dataset.loyalty = source.loyalty;
+        if (source.power) img.dataset.power = source.power;
+        if (source.toughness) img.dataset.toughness = source.toughness;
       }
       deckElement.appendChild(img);
     }
@@ -126,30 +131,63 @@ function isUrl(str) {
   return !!pattern.test(str);
 }
 
-const keywords = ["Deck", "Sideboard", "Maybeboard"];  
-function fill(value, isToken=false) {
-  [...value.split("\n")].filter(line => !keywords.includes(line.trim())).forEach((context) => {
-    const card = parseContext(context);
-    if (isUrl(card.name)) {
-      appendCards([{source: card.name, custom: true}], card.quantity);
-      return;
-    }
-    const url = isToken ? getTokenUrl(card.name, card.set) : getCardUrl(card.name, card.set);
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) =>
-        appendCards(
-          isToken
-            ? getTokenImageUrls(data, card.name)
-            : getCardImageUrls(data, card.name, card.edition),
-          card.quantity)
-      )
-      .catch((e) => console.log(`Booo:\n ${e}`));
-  });
+const keywords = ["Deck", "Sideboard", "Maybeboard"];
+function fill(value, isToken = false) {
+  [...value.split("\n")]
+    .filter((line) => !keywords.includes(line.trim()))
+    .forEach((context) => {
+      const card = parseContext(context);
+      if (isUrl(card.name)) {
+        appendCards([{ source: card.name, custom: true }], card.quantity);
+        return;
+      }
+      const url = isToken
+        ? getTokenUrl(card.name, card.set)
+        : getCardUrl(card.name, card.set);
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) =>
+          appendCards(
+            isToken
+              ? getTokenImageUrls(data, card.name)
+              : getCardImageUrls(data, card.name, card.edition),
+            card.quantity
+          )
+        )
+        .catch((e) => console.log(`Booo:\n ${e}`));
+    });
 }
 
-const a4Height = 297;
-const a4Width = 210;
+const sheetFormat = {
+  a0: {
+    width: 841,
+    height: 1189,
+  },
+  a1: {
+    width: 594,
+    height: 841,
+  },
+  a2: {
+    width: 420,
+    height: 594,
+  },
+  a3: {
+    width: 297,
+    height: 420,
+  },
+  a4: {
+    width: 210,
+    height: 297,
+  },
+  a5: {
+    width: 148,
+    height: 210,
+  },
+  a6: {
+    width: 105,
+    height: 148,
+  },
+};
 
 const { jsPDF } = window.jspdf;
 
@@ -192,8 +230,8 @@ const getCardPositions = (
 
 function getFilenameFromUrl(url) {
   const pathname = new URL(url).pathname;
-  const index = pathname.lastIndexOf('/');
-  return (-1 !== index) ? pathname.substring(index + 1) : pathname;
+  const index = pathname.lastIndexOf("/");
+  return -1 !== index ? pathname.substring(index + 1) : pathname;
 }
 
 const buildPdf = (
@@ -207,7 +245,7 @@ const buildPdf = (
   pageHeight,
   gutter
 ) => {
-  let doc = new jsPDF();
+  let doc = new jsPDF("p", "mm", [pageHeight, pageWidth]);
   const marginLeft =
     (pageWidth - cardWidth * columns - gutter * (columns - 1)) / 2;
   const marginTop = (pageHeight - cardHeight * rows - gutter * (rows - 1)) / 2;
@@ -221,13 +259,20 @@ const buildPdf = (
       doc.addPage();
     }
   });
-  
+
   if (document.querySelector(".decklist").value === "with") {
-    const text = document.querySelector(".cards").value.trim().split('\n').map(x => {
-      if (!x.includes("http")) return x;
-      const url = x.substr(x.indexOf('http'));
-      return isUrl(url) ? x.substr(0, x.indexOf('http')) + getFilenameFromUrl(url) : x;
-    }).join('\n');
+    const text = document
+      .querySelector(".cards")
+      .value.trim()
+      .split("\n")
+      .map((x) => {
+        if (!x.includes("http")) return x;
+        const url = x.substr(x.indexOf("http"));
+        return isUrl(url)
+          ? x.substr(0, x.indexOf("http")) + getFilenameFromUrl(url)
+          : x;
+      })
+      .join("\n");
     doc.addPage();
     doc.setFontSize(22);
     // note: no token for now;
@@ -275,12 +320,14 @@ function getCardSize(sizeClass) {
 
 function print() {
   const imgs = document.querySelectorAll(".deck img");
+  const sheet =
+    sheetFormat[document.querySelector(".sheet").value.toLowerCase()];
   const deckSize = imgs.length;
 
   const sizeClass = [...imgs[0].classList].filter((x) => x.includes("Size"))[0];
   const card = getCardSize(sizeClass);
-  const columns = getColumns(a4Width, card.width);
-  const rows = getRows(a4Height, card.height);
+  const columns = getColumns(sheet.width, card.width);
+  const rows = getRows(sheet.height, card.height);
   const gutterClass = [...imgs[0].classList].filter((x) =>
     x.includes("Gutter")
   )[0];
@@ -304,8 +351,8 @@ function print() {
     card.height,
     columns,
     rows,
-    a4Width,
-    a4Height,
+    sheet.width,
+    sheet.height,
     gutter
   );
   saveAspdf(doc, deckSize, card.name);
@@ -334,12 +381,11 @@ function renderDeck() {
   fill(extraTokens, true);
 }
 
-document.querySelector(".print").onclick = 
-  function () {
-    const value = document.querySelector(".cards").value.trim();
-    if (value === "") return;
-    print();
-  };
+document.querySelector(".print").onclick = function () {
+  const value = document.querySelector(".cards").value.trim();
+  if (value === "") return;
+  print();
+};
 
 document.querySelector(".display").onclick = renderDeck;
 
@@ -364,64 +410,73 @@ document.querySelector(".size").onchange = function (e) {
   });
   e.target.dataset.size = e.target.value;
 };
-  
+
 function drawTitle(ctx, lines) {
-  ctx.font = '38px sans-serif';
+  ctx.font = "38px sans-serif";
   var x = 30;
   var y = 100;
   var lineHeight = 40;
-  lines.forEach((line, i) => 
-    ctx.fillText(line, x, y + i * lineHeight));
+  lines.forEach((line, i) => ctx.fillText(line, x, y + i * lineHeight));
 }
 
 function drawCmc(ctx, canvaswidth, cmc) {
-  ctx.font = '26px mono';
+  ctx.font = "26px mono";
   var x = 30;
   var y = 30;
   ctx.fillText(
     cmc.toUpperCase(),
     canvaswidth - ctx.measureText(cmc).width - x,
-    y);
+    y
+  );
 }
 
-function drawBottomRight(ctx, canvasWidth, canvasHeight, value) { 
-  ctx.font = '26px mono';
+function drawBottomRight(ctx, canvasWidth, canvasHeight, value) {
+  ctx.font = "26px mono";
   var x = 30;
   var y = 30;
   ctx.fillText(
     value,
     canvasWidth - ctx.measureText(value).width - x / 2,
-    canvasHeight - y / 2);
+    canvasHeight - y / 2
+  );
 }
 
 function createCardAsText(cardName, cardCost, bottomValue) {
-  var canvas = document.createElement('canvas');
-  var ctx = canvas.getContext('2d');
-  canvas.width = 63*4;
-  canvas.height = 88*4;
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext("2d");
+  canvas.width = 63 * 4;
+  canvas.height = 88 * 4;
   canvas.style.width = "63mm";
   canvas.style.height = "88mm";
-  ctx.clearRect(0, 0, canvas.width,canvas.height);
-  ctx.fillStyle = 'rgb(255,255,255)';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = 'rgb(0,0,0)';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgb(255,255,255)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgb(0,0,0)";
 
-  const lines = cardName.split(' ');
+  const lines = cardName.split(" ");
   drawTitle(ctx, lines);
   drawCmc(ctx, canvas.width, cardCost);
   drawBottomRight(ctx, canvas.width, canvas.height, bottomValue);
-  return canvas.toDataURL('image/jpeg', 1.0);
+  return canvas.toDataURL("image/jpeg", 1.0);
 }
 
 document.querySelector(".cardAs").onchange = function (e) {
   let imgs = document.querySelectorAll(".deck img");
   if (imgs.length == 0) return;
   [...imgs]
-    .filter(img => img.dataset.custom === "false")
+    .filter((img) => img.dataset.custom === "false")
     .forEach((img) => {
-      img.src = e.target.value === "image"
-        ? img.dataset.src
-        : createCardAsText(img.dataset.name, img.dataset.cost, img.dataset.loyalty ?? (img.dataset.power && img.dataset.toughness ? `${img.dataset.power} / ${img.dataset.toughness}` : ""));
+      img.src =
+        e.target.value === "image"
+          ? img.dataset.src
+          : createCardAsText(
+              img.dataset.name,
+              img.dataset.cost,
+              img.dataset.loyalty ??
+                (img.dataset.power && img.dataset.toughness
+                  ? `${img.dataset.power} / ${img.dataset.toughness}`
+                  : "")
+            );
     });
 };
 
