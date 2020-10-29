@@ -114,8 +114,8 @@ main img {
     grid-auto-flow: column;
 }
 
-.visible {
-    display: block;
+.inline {
+    display: inline;
 }
 
 .hidden {
