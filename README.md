@@ -27,8 +27,8 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 | support custom card          | ✔️         | ❌        | ❌        | ?                 |
 | support different card size  | ✔️         | ✔️        | ❌        | ?                 |
 | support different paper size | ✔️ | ✔️        | ❌        | ?                 |
-| can specificy a set          | ✔️         | ✔️        | ?        | ✔️                 |
-| can skip basic land          | [🚧 WIP](https://github.com/aloisdg/diab/issues/19) | ✔️        | ?        | ?                 |
+| can specificy a set          | ✔️ | ✔️        | ?        | ✔️                 |
+| can skip basic land          | ✔️ | ✔️        | ?        | ?                 |
 | can print decklist           | ✔️ | ✔️        | ❌        | ?                 |
 
 1. ublock origin wont block anything on the page.
