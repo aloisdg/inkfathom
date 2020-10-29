@@ -114,6 +114,14 @@ main img {
     grid-auto-flow: column;
 }
 
+.visible {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
 @media print {
     .overflow-y {
         overflow-y: initial;
