@@ -61,7 +61,7 @@ function selectIllustration(illustrations) {
 function buildCardDataset(cardData) {
   return {
     custom: false,
-    isBasicLand: cardData.type_line.includes("Basic Land — "),
+    isBasicLand: cardData.type_line.startsWith("Basic Land"),
     name: cardData.name,
     cost: cardData.mana_cost,
     loyalty: cardData.loyalty,
