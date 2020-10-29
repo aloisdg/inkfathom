@@ -419,7 +419,7 @@ document.querySelector(".skipBasicLands").onchange = function (e) {
   if (imgs.length == 0) return;
   const withBasicLands = e.target.value === "with";
   [...imgs].filter(img => img.dataset.isBasicLand).forEach((img) => {
-    img.classList.toggle("visible", withBasicLands);
+    img.classList.toggle("inline", withBasicLands);
     img.classList.toggle("hidden", !withBasicLands);
   });
 };
