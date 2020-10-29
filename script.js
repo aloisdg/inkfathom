@@ -140,7 +140,10 @@ function fill(value, isToken = false) {
     .forEach((context) => {
       const card = parseContext(context);
       if (isUrl(card.name)) {
-        appendCards([{ source: card.name, custom: true, isBasicLand: false }], card.quantity);
+        appendCards(
+          [{ source: card.name, custom: true, isBasicLand: false }],
+          card.quantity
+        );
         return;
       }
       const url = isToken
@@ -412,7 +415,6 @@ document.querySelector(".size").onchange = function (e) {
   });
   e.target.dataset.size = e.target.value;
 };
-
 
 document.querySelector(".skipBasicLands").onchange = function (e) {
   let imgs = document.querySelectorAll(".deck img[data-is-basic-land='true']");
