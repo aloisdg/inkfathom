@@ -415,10 +415,10 @@ document.querySelector(".size").onchange = function (e) {
 
 
 document.querySelector(".skipBasicLands").onchange = function (e) {
-  let imgs = document.querySelectorAll(".deck img");
+  let imgs = document.querySelectorAll(".deck img[data-is-basic-land='true']");
   if (imgs.length == 0) return;
   const withBasicLands = e.target.value === "with";
-  [...imgs].filter(img => img.dataset.isBasicLand).forEach((img) => {
+  [...imgs].forEach((img) => {
     img.classList.toggle("inline", withBasicLands);
     img.classList.toggle("hidden", !withBasicLands);
   });
