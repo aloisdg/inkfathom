@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -7,36 +8,41 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
   <link rel="stylesheet" href="style.css">
 </head>
-  <body>
-    <h1 class="m-4 title">Inkfathom Proxy</h1>
+
+<body>
+  <h1 class="m-4 title">Inkfathom Proxy</h1>
   <header class="ml-4 mr-2">
-    
-<textarea id="cards" class="cards" placeholder="2 Opt&#10;1 Riverglide Pathway // Lavaglide Pathway&#10;1 https://i.imgur.com/x2bOOjY.jpg" wrap="off" rows="10">
+    <div class="mb-2 relative">
+      <button id="shareUrl" type="button" class="absolute r-0 p-2">🔗</button>
+      <textarea id="cards" class="cards rb-0 mb-0_5"
+        placeholder="2 Opt&#10;1 Riverglide Pathway // Lavaglide Pathway&#10;1 https://i.imgur.com/x2bOOjY.jpg"
+        wrap="off" rows="10">
 2 Duress (M19)
 1 Tajic, Legion's Edge
 1 Riverglide Pathway // Lavaglide Pathway
 1 https://i.imgur.com/x2bOOjY.jpg
 1 Ashiok, Nightmare Muse
 </textarea>
-    <textarea id="extra_tokens" class="extra_tokens" placeholder="1 Squirrel" wrap="off" rows="3">
+      <textarea id="extra_tokens" class="rt-0 extra_tokens" placeholder="1 Squirrel" wrap="off" rows="3">
 1 Squirrel (UND)
 1 Shark
 </textarea>
-    <div class="grid gap grid-flow-col">
+    </div>
+    <div class="mb-2 grid gap grid-flow-col">
       <button class="display">&#128270;</button>
       <button class="print">&#128424;</button>
     </div>
-    <select class="size">
+    <select class="mb-2 size">
       <option value="normalSize">Normal card size</option>
       <option value="smallSize">Small card size</option>
       <option value="tinySize">Tiny card size</option>
-     </select>
-    <select class="gutter">
+    </select>
+    <select class="mb-2 gutter">
       <option value="noGutter">No gutter</option>
       <option value="tinyGutter">Tiny gutter</option>
       <option value="smallGutter">Small gutter</option>
     </select>
-    <select class="sheet">
+    <select class="mb-2 sheet">
       <option value="A0">Sheet size A0</option>
       <option value="A1">Sheet size A1</option>
       <option value="A2">Sheet size A2</option>
@@ -45,23 +51,25 @@
       <option value="A5">Sheet size A5</option>
       <option value="A6">Sheet size A6</option>
     </select>
-    <select class="cardAs">
+    <select class="mb-2 cardAs">
       <option value="image">Card as Image</option>
       <option value="text">Card as Text</option>
     </select>
-    <select class="decklist">
+    <select class="mb-2 decklist">
       <option value="without">Without decklist</option>
       <option value="with">With decklist</option>
     </select>
-    <select class="skipBasicLands">
+    <select class="mb-2 skipBasicLands">
       <option value="with">With basic lands</option>
       <option value="without">Without basic lands</option>
     </select>
   </header>
+
   <main class="deck overflow-y ml-2 mr-4">
   </main>
 
   <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>

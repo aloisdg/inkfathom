@@ -495,6 +495,17 @@ document.querySelector(".cardAs").onchange = function (e) {
     });
 };
 
+document.querySelector("#shareUrl").onclick = function () {
+  const cards = document.querySelector("#cards").value.trim();
+  const extraTokens = document.querySelector("#extra_tokens").value.trim();
+  if (cards === "" && extraTokens === "") return;
+
+  const url = new URL(location.href.replace(location.search, ""));
+  url.searchParams.append("cards", cards);
+  url.searchParams.append("tokens", extraTokens);
+  window.prompt("Copy permalink to clipboard: Ctrl+C, Enter", url);
+};
+
 // const context = document.querySelector('.card').textContent;
 // const card = parseContext(context);
 // const url = baseUrl + encodeURI(card.name);
