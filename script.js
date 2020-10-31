@@ -287,7 +287,7 @@ const buildPdf = (
 };
 
 function saveAspdf(doc, deckSize, cardName) {
-  const name = `diab-${deckSize}_${cardName.replace(" ", "_")}.pdf`;
+  const name = `InkfathomProxy-${deckSize}_${cardName.replace(" ", "_")}.pdf`;
   doc.save(name);
 }
 
