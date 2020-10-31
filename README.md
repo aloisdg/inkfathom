@@ -1,6 +1,6 @@
-# diab
+# Inkfathom Proxy
 
-Deck In A Bottle is a webapp to format and display a mtg deck to create proxies. [Try it Online!](https://aloisdg.github.io/diab/)
+Inkfathom Proxy is a webapp to format and display a mtg deck to create proxies. [Try it Online!](https://inkfathom.netlify.app)
 
 ## Motive
 
@@ -10,9 +10,8 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 
 [mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like [Tolarian Copyshop](https://bitbucket.org/tolarianlibrarians/mtg-tolarian-copyshop/downloads/) too. I create a comparaison table, feel free to open an issue if I missed anything:
 
-|                              | ~         | mtgprint | proxymtg | tolarian copyshop |
+|                              | inkfathom | mtgprint | proxymtg | tolarian copyshop |
 |------------------------------|-----------|----------|----------|-------------------|
-| has a good name              | [🚧 WIP](https://github.com/aloisdg/diab/issues/22) | ✔️        | ✔️        | ✔️                 |
 | is free                      | ✔️         | ✔️        | ✔️        | ✔️                 |
 | is ad-free                   | ✔️         | ✔️        | ✔️        | ✔️                 |
 | is privacy friendly<sup>1</sup> | ✔️         | ❌        | ❌        | ✔️                 |
