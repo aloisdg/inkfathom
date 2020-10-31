@@ -68,12 +68,22 @@ function buildCardDataset(cardData) {
     power: cardData.power,
     toughness: cardData.toughness,
     source: cardData.image_uris.large,
+    priceUSD: cardData.prices.usd,
+    priceEUR: cardData.prices.eur,
   };
 }
 
-function getCardImageUrls(data, name) {
+function isMoreExpansiveThanPriceCriteria(cardData, maxPriceCriteria) {
+  if (!maxPriceCriteria) return false;
+  if (maxPriceCriteria.currency === "usd" && cardData.prices.usd && cardData.prices.usd > maxPriceCriteria.price) { return true; }
+  if (maxPriceCriteria.currency === "eur" && cardData.prices.eur && cardData.prices.eur > maxPriceCriteria.price) { return true; }
+  return false;
+}
+
+function getCardImageUrls(data, name, edition, maxPriceCriteria) {
   // todo: should we handle name case?
   const cardData = data.data.filter((x) => x.name === name)[0];
+  if (isMoreExpansiveThanPriceCriteria(cardData, maxPriceCriteria)) return [];
   if (cardData.card_faces === undefined) return [buildCardDataset(cardData)];
   return [
     buildCardDataset(cardData.card_faces[0]),
@@ -81,12 +91,13 @@ function getCardImageUrls(data, name) {
   ];
 }
 
-function getTokenImageUrls(data, name) {
+function getTokenImageUrls(data, name, maxPriceCriteria) {
   const cardData = data.data.filter((x) => x.name === name)[0];
   if (cardData.name === undefined) return [];
   if (cardData.name === name && cardData.layout === "token")
-    return [buildCardDataset(cardData)];
+    return isMoreExpansiveThanPriceCriteria(cardData, maxPriceCriteria) ? [] : [buildCardDataset(cardData)];
   if (cardData.layout !== "double_faced_token") return [];
+  if (cardData.layout === "double_faced_token" && isMoreExpansiveThanPriceCriteria(cardData, maxPriceCriteria)) return [];
   const face = cardData.card_faces.find((f) => f.name === name);
   return face === undefined ? [] : [buildCardDataset(face)];
 }
@@ -134,7 +145,7 @@ function isUrl(str) {
 }
 
 const keywords = ["Deck", "Sideboard", "Maybeboard"];
-function fill(value, isToken = false) {
+function fill(value, maxPriceCriteria, isToken = false) {
   [...value.split("\n")]
     .filter((line) => !keywords.includes(line.trim()))
     .forEach((context) => {
@@ -154,8 +165,8 @@ function fill(value, isToken = false) {
         .then((data) =>
           appendCards(
             isToken
-              ? getTokenImageUrls(data, card.name)
-              : getCardImageUrls(data, card.name, card.edition),
+              ? getTokenImageUrls(data, card.name, maxPriceCriteria)
+              : getCardImageUrls(data, card.name, card.edition, maxPriceCriteria),
             card.quantity
           )
         )
@@ -381,9 +392,17 @@ function renderDeck() {
   const extraTokens = document.querySelector("#extra_tokens").value.trim();
   if (value === "" && extraTokens === "") return;
 
+  let maxPriceCriteria = null;
+  if (document.getElementById("enable_card_max_price").checked === true) {
+    const inputCurrency = document.getElementById("card_max_price_currency").value;
+    maxPriceCriteria = inputCurrency === "usd" || inputCurrency === "eur" 
+      ? { price: document.getElementById("card_max_price").value, currency: inputCurrency }
+      : null;
+  }
+
   clean();
-  fill(value);
-  fill(extraTokens, true);
+  fill(value, maxPriceCriteria);
+  fill(extraTokens, maxPriceCriteria, true);
 }
 
 document.querySelector(".print").onclick = function () {
