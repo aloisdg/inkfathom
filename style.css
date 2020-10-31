@@ -158,3 +158,19 @@ main img {
         overflow-y: auto;
     }
 }
+
+#filter_card_max_price_label input {
+  vertical-align: middle;
+}
+
+#filter_card_max_price_label span {
+  vertical-align: text-bottom;
+}
+
+#filter_card_max_price {
+  margin-bottom: 0.1rem;
+}
+
+#filter_card_max_price_label {
+  margin: auto;
+}

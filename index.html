@@ -22,6 +22,14 @@
 1 Squirrel (UND)
 1 Shark
 </textarea>
+    <div id="filter_card_max_price" class="grid gap grid-flow-col">
+      <label id="filter_card_max_price_label" for="enable_card_max_price"><input type="checkbox" id="enable_card_max_price"/> <span>Maximum price per card</span></label>
+      <input type="number" id="card_max_price" name="card_max_price" min="0" max="10000">
+      <select name="card_max_price_currency" id="card_max_price_currency">
+        <option value="usd">$</option>
+        <option value="eur">€</option>
+      </select>
+    </div>
     <div class="grid gap grid-flow-col">
       <button class="display">&#128270;</button>
       <button class="print">&#128424;</button>
