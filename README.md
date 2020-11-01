@@ -8,27 +8,27 @@ MTG is a great game. A great but expensive game. I can't afford to pay for a car
 
 Proxies are acceptable in most casual game, so lets go to the printer and brrrr. Since I couldn't find a proxy maker suiting my need, I made my own. I don't want to keep copy/paste image in a document editor (Libre Office, Microsoft Word, or whatever).
 
-[mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like [Tolarian Copyshop](https://bitbucket.org/tolarianlibrarians/mtg-tolarian-copyshop/downloads/) too. I create a comparaison table, feel free to open an issue if I missed anything:
+[mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/), [MTG Proxy Generator](https://philo-jh.github.io/MTG-Proxy-Generator/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like [Tolarian Copyshop](https://bitbucket.org/tolarianlibrarians/mtg-tolarian-copyshop/downloads/) too. I create a comparaison table, feel free to open an issue if I missed anything:
 
-|                              | inkfathom | mtgprint | proxymtg | tolarian copyshop |
-|------------------------------|-----------|----------|----------|-------------------|
-| is free                      | ✔️         | ✔️        | ✔️        | ✔️                 |
-| is ad-free                   | ✔️         | ✔️        | ✔️        | ✔️                 |
-| is privacy friendly<sup>1</sup> | ✔️         | ❌        | ❌        | ✔️                 |
-| is open source               | ✔️         | ❌        | ❌        | ✔️                 |
-| is online                    | ✔️         | ✔️        | ✔️        | ❌                 |
-| is cross plateform           | ✔️         | ✔️        | ✔️        | ❌                 |
-| is responsive                | ✔️         | ✔️        | ✔️        | ❌                 |
-| is community-driven<sup>2</sup> | ✔️         | ❌        | ❌        | ❌                 |
-| support text-only            | ✔️         | ❌        | ❌        | [🚧 WIP](https://trello.com/c/fu3vex2u/72-text-only-print-option)         |
-| support token                | ✔️         | ✔️        | ✔️        | ?                 |
-| support flip card            | ✔️         | ✔️        | ❌        | [🚧 WIP](https://trello.com/c/aesAIHhO/73-print-front-and-backside-of-double-faced-cards)                 |
-| support custom card          | ✔️         | ❌        | ❌        | ?                 |
-| support different card size  | ✔️         | ✔️        | ❌        | ?                 |
-| support different paper size | ✔️ | ✔️        | ❌        | ?                 |
-| can specificy a set          | ✔️ | ✔️        | ?        | ✔️                 |
-| can skip basic land          | ✔️ | ✔️        | ?        | ?                 |
-| can print decklist           | ✔️ | ✔️        | ❌        | ?                 |
+|                              | inkfathom | mtgprint | proxymtg | tolarian copyshop | MTG Proxy Generator |
+|------------------------------|-----------|----------|----------|-------------------|---------------------|
+| is free                      | ✔️         | ✔️        | ✔️        | ✔️                 | ✔️ |
+| is ad-free                   | ✔️         | ✔️        | ✔️        | ✔️                 | ✔️ |
+| is privacy friendly<sup>1</sup> | ✔️         | ❌        | ❌        | ✔️                 | ✔️ |
+| is open source               | ✔️         | ❌        | ❌        | ✔️                 | ✔️ |
+| is online                    | ✔️         | ✔️        | ✔️        | ❌                 | ✔️ |
+| is cross plateform           | ✔️         | ✔️        | ✔️        | ❌                 | ✔️ |
+| is responsive                | ✔️         | ✔️        | ✔️        | ❌                 | ✔️ |
+| is community-driven<sup>2</sup> | ✔️         | ❌        | ❌        | ❌                 | ✔️ | ✔️ |
+| support text-only            | ✔️         | ❌        | ❌        | [🚧 WIP](https://trello.com/c/fu3vex2u/72-text-only-print-option)         | ❌ |
+| support token                | ✔️         | ✔️        | ✔️        | ?                 | ✔️ |
+| support flip card            | ✔️         | ✔️        | ❌        | [🚧 WIP](https://trello.com/c/aesAIHhO/73-print-front-and-backside-of-double-faced-cards)                 | ❌ |
+| support custom card          | ✔️         | ❌        | ❌        | ?                 | ❌ |
+| support different card size  | ✔️         | ✔️        | ❌        | ?                 | ❌ |
+| support different paper size | ✔️ | ✔️        | ❌        | ?                 | ❌ |
+| can specificy a set          | ✔️ | ✔️        | ?        | ✔️                 | ✔️ |
+| can skip basic land          | ✔️ | ✔️        | ?        | ?                 | ❌ |
+| can print decklist           | ✔️ | ✔️        | ❌        | ?                 | ❌ |
 
 1. ublock origin wont block anything on the page.
 1. Anyone can contribute, participate, submit issue, etc. as long as you follow our code of conduct.
