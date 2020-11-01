@@ -68,6 +68,7 @@ function buildCardDataset(cardData) {
     power: cardData.power,
     toughness: cardData.toughness,
     source: cardData.image_uris.large,
+    printsUri: cardData.prints_search_uri,
   };
 }
 
@@ -95,7 +96,23 @@ function appendCards(sources, quantity, isCustom) {
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
   sources.forEach((source) => {
     for (let i = 0; i < quantity; i++) {
-      let img = document.createElement("img");
+      const div = document.createElement("div");
+      div.classList.add(
+        "flex",
+        "relative",
+        "noGutter",
+        "normalSize",
+        "justify-center",
+        "align-center"
+      );
+
+      const loader = document.createElement("div");
+      loader.classList.add("absolute", "lds-ripple");
+      loader.appendChild(document.createElement("div"));
+      loader.appendChild(document.createElement("div"));
+      div.appendChild(loader);
+
+      const img = document.createElement("img");
       const src = isCustom ? proxyurl + source.source : source.source;
       img.crossOrigin = "anonymous";
       img.setAttribute("src", src);
@@ -106,15 +123,23 @@ function appendCards(sources, quantity, isCustom) {
         img.dataset.isBasicLand = source.isBasicLand;
         img.dataset.name = source.name;
         img.dataset.cost = source.cost;
+        if (source.printsUri) img.dataset.printsUri = source.printsUri;
         if (source.loyalty) img.dataset.loyalty = source.loyalty;
         if (source.power) img.dataset.power = source.power;
         if (source.toughness) img.dataset.toughness = source.toughness;
       }
-      const div = document.createElement("div");
-      div.classList.add("flex", "relative", "noGutter", "normalSize", "justify-center", "align-center");
-      div.innerHTML = "<div class='absolute lds-ripple'><div></div><div></div></div>";
-
       div.appendChild(img);
+
+      if (!source.custom && source.printsUri) {
+        const button = document.createElement("button");
+        button.textContent = "🡺";
+        button.style.fontSize = "16px";
+        button.setAttribute("type", "button");
+        button.classList.add("absolute", "b-2", "uppercase");
+        button.onclick = switchPrint;
+        div.appendChild(button);
+      }
+
       deckElement.appendChild(div);
     }
   });
@@ -400,6 +425,35 @@ document.querySelector(".print").onclick = function () {
 
 document.querySelector(".display").onclick = renderDeck;
 
+function switchPrint(e) {
+  const img = e.target.parentElement.children[1];
+  if (!img.dataset.alternativePrints) {
+    fetch(img.dataset.printsUri)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.total_cards === 1) {
+          e.target.textContent = data.data[0].set;
+          return;
+        };
+        img.src = data.data[1].image_uris.large;
+        img.dataset.alternativePrints = JSON.stringify(
+          data.data.map((x) => ({
+            source: x.image_uris.large,
+            set: x.set,
+          }))
+        );
+        e.target.textContent = data.data[1].set;
+      })
+      .catch((e) => console.log(`Booo:\n ${e}`));
+  } else {
+    const prints = JSON.parse(img.dataset.alternativePrints);
+    const current = prints.findIndex((print) => print.source === img.src);
+    const next = prints[current === prints.length - 1 ? 0 : current + 1];
+    img.src = next.source;
+    e.target.textContent = next.set;
+  }
+}
+
 document.querySelector(".gutter").onchange = function (e) {
   let imgs = document.querySelectorAll(".deck img");
   if (imgs.length == 0) return;
@@ -427,7 +481,9 @@ document.querySelector(".size").onchange = function (e) {
 };
 
 document.querySelector(".skipBasicLands").onchange = function (e) {
-  let imgs = document.querySelectorAll(".deck > div > img[data-is-basic-land='true']");
+  let imgs = document.querySelectorAll(
+    ".deck > div > img[data-is-basic-land='true']"
+  );
   if (imgs.length == 0) return;
   const withBasicLands = e.target.value === "with";
   [...imgs].forEach((img) => {

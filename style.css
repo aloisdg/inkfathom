@@ -200,8 +200,16 @@ main {
   position: relative;
 }
 
+.b-2 {
+  bottom: 0.5rem;
+}
+
 .r-0 {
   right: 0;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 button,
@@ -221,6 +229,14 @@ main img {
 
 main div {
   transition: all 0.3s;
+}
+
+main div button {
+  display: none;
+}
+
+main div:hover button {
+  display: block;
 }
 
 .noGutter {
