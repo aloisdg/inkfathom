@@ -91,12 +91,12 @@ function getTokenImageUrls(data, name) {
   return face === undefined ? [] : [buildCardDataset(face)];
 }
 
-function appendCards(sources, quantity) {
+function appendCards(sources, quantity, isCustom) {
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
   sources.forEach((source) => {
     for (let i = 0; i < quantity; i++) {
       let img = document.createElement("img");
-      const src = proxyurl + source.source;
+      const src = isCustom ? proxyurl + source.source : source.source;
       img.crossOrigin = "anonymous";
       img.setAttribute("src", src);
       img.classList.add("noGutter", "normalSize");
@@ -146,7 +146,8 @@ function fill(value, isToken = false) {
       if (isUrl(card.name)) {
         appendCards(
           [{ source: card.name, custom: true, isBasicLand: false }],
-          card.quantity
+          card.quantity,
+          true
         );
         return;
       }
@@ -160,7 +161,8 @@ function fill(value, isToken = false) {
             isToken
               ? getTokenImageUrls(data, card.name)
               : getCardImageUrls(data, card.name, card.edition),
-            card.quantity
+            card.quantity,
+            false
           )
         )
         .catch((e) => console.log(`Booo:\n ${e}`));
