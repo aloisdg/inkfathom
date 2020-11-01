@@ -99,8 +99,7 @@ function appendCards(sources, quantity) {
       const src = proxyurl + source.source;
       img.crossOrigin = "anonymous";
       img.setAttribute("src", src);
-      img.classList.add("noGutter");
-      img.classList.add("normalSize");
+      img.classList.add("noGutter", "normalSize");
       img.dataset.src = src;
       img.dataset.custom = source.custom;
       if (!source.custom) {
@@ -111,7 +110,12 @@ function appendCards(sources, quantity) {
         if (source.power) img.dataset.power = source.power;
         if (source.toughness) img.dataset.toughness = source.toughness;
       }
-      deckElement.appendChild(img);
+      const div = document.createElement("div");
+      div.classList.add("flex", "relative", "noGutter", "normalSize", "justify-center", "align-center");
+      div.innerHTML = "<div class='absolute lds-ripple'><div></div><div></div></div>";
+
+      div.appendChild(img);
+      deckElement.appendChild(div);
     }
   });
 }
@@ -324,7 +328,7 @@ function getCardSize(sizeClass) {
 }
 
 function print() {
-  const imgs = document.querySelectorAll(".deck img:not(.hidden)");
+  const imgs = document.querySelectorAll(".deck > div:not(.hidden) > img");
   const sheet =
     sheetFormat[document.querySelector(".sheet").value.toLowerCase()];
   const deckSize = imgs.length;
@@ -401,28 +405,32 @@ document.querySelector(".gutter").onchange = function (e) {
   imgs.forEach((img) => {
     img.classList.remove(previous);
     img.classList.add(e.target.value);
+    img.parentElement.classList.remove(previous);
+    img.parentElement.classList.add(e.target.value);
   });
   e.target.dataset.gutter = e.target.value;
 };
 
 document.querySelector(".size").onchange = function (e) {
-  let imgs = document.querySelectorAll(".deck img");
+  let imgs = document.querySelectorAll(".deck > div > img");
   if (imgs.length == 0) return;
   const previous = e.target.dataset.size ?? "normalSize";
   imgs.forEach((img) => {
     img.classList.remove(previous);
     img.classList.add(e.target.value);
+    img.parentElement.classList.remove(previous);
+    img.parentElement.classList.add(e.target.value);
   });
   e.target.dataset.size = e.target.value;
 };
 
 document.querySelector(".skipBasicLands").onchange = function (e) {
-  let imgs = document.querySelectorAll(".deck img[data-is-basic-land='true']");
+  let imgs = document.querySelectorAll(".deck > div > img[data-is-basic-land='true']");
   if (imgs.length == 0) return;
   const withBasicLands = e.target.value === "with";
   [...imgs].forEach((img) => {
-    img.classList.toggle("inline", withBasicLands);
-    img.classList.toggle("hidden", !withBasicLands);
+    img.parentElement.classList.toggle("inline", withBasicLands);
+    img.parentElement.classList.toggle("hidden", !withBasicLands);
   });
 };
 
@@ -476,7 +484,7 @@ function createCardAsText(cardName, cardCost, bottomValue) {
 }
 
 document.querySelector(".cardAs").onchange = function (e) {
-  let imgs = document.querySelectorAll(".deck img");
+  let imgs = document.querySelectorAll(".deck >div > img");
   if (imgs.length == 0) return;
   [...imgs]
     .filter((img) => img.dataset.custom === "false")
