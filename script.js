@@ -74,10 +74,12 @@ function buildCardDataset(cardData) {
 
 function getCardImageUrls(data, name) {
   if (name.includes("lang:")) {
-    name = name.substring(0, name.indexOf("lang:") - 1)
+    name = name.substring(0, name.indexOf("lang:") - 1);
   }
-  
-  const cardData = data.data.filter((x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase())[0];
+
+  const cardData = data.data.filter(
+    (x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase()
+  )[0];
 
   if (cardData.card_faces === undefined) return [buildCardDataset(cardData)];
   return [
@@ -438,7 +440,7 @@ function switchPrint(e) {
         if (data.total_cards === 1) {
           e.target.textContent = data.data[0].set;
           return;
-        };
+        }
         img.src = data.data[1].image_uris.large;
         img.dataset.alternativePrints = JSON.stringify(
           data.data.map((x) => ({
@@ -575,10 +577,6 @@ document.querySelector("#shareUrl").onclick = function () {
   if (!!extraTokens) url.searchParams.append("tokens", extraTokens);
   window.prompt("Copy permalink to clipboard: Ctrl+C, Enter", url);
 };
-
-// const context = document.querySelector('.card').textContent;
-// const card = parseContext(context);
-// const url = baseUrl + encodeURI(card.name);
 
 const locationHref = new URL(window.location.href);
 if (locationHref.search) {
