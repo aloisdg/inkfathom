@@ -74,10 +74,12 @@ function buildCardDataset(cardData) {
 
 function getCardImageUrls(data, name) {
   if (name.includes("lang:")) {
-    name = name.substring(0, name.indexOf("lang:") - 1)
+    name = name.substring(0, name.indexOf("lang:") - 1);
   }
-  
-  const cardData = data.data.filter((x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase())[0];
+
+  const cardData = data.data.filter(
+    (x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase()
+  )[0];
 
   if (cardData.card_faces === undefined) return [buildCardDataset(cardData)];
   return [
@@ -166,7 +168,7 @@ function isUrl(str) {
   return !!pattern.test(str);
 }
 
-const keywords = ["Deck", "Sideboard", "Maybeboard"];
+const keywords = ["Deck", "Commander", "Sideboard", "Maybeboard"];
 function fill(value, isToken = false) {
   [...value.split("\n")]
     .filter((line) => !keywords.includes(line.trim()))
@@ -438,7 +440,7 @@ function switchPrint(e) {
         if (data.total_cards === 1) {
           e.target.textContent = data.data[0].set;
           return;
-        };
+        }
         img.src = data.data[1].image_uris.large;
         img.dataset.alternativePrints = JSON.stringify(
           data.data.map((x) => ({
@@ -565,25 +567,44 @@ document.querySelector(".cardAs").onchange = function (e) {
     });
 };
 
+function buildPermalink(cards, tokens) {
+  const url = new URL(location.href.replace(location.search, ""));
+  if (cards.length + tokens.length < 255) {
+    if (!!cards) url.searchParams.append("cards", cards);
+    if (!!tokens) url.searchParams.append("tokens", tokens);
+    return url;
+  }
+  url.searchParams.append(
+    "z",
+    zip(JSON.stringify({ cards: cards, tokens: tokens }))
+  );
+  return url;
+}
+
 document.querySelector("#shareUrl").onclick = function () {
   const cards = document.querySelector("#cards").value.trim();
-  const extraTokens = document.querySelector("#extra_tokens").value.trim();
-  if (cards === "" && extraTokens === "") return;
-
-  const url = new URL(location.href.replace(location.search, ""));
-  if (!!cards) url.searchParams.append("cards", cards);
-  if (!!extraTokens) url.searchParams.append("tokens", extraTokens);
-  window.prompt("Copy permalink to clipboard: Ctrl+C, Enter", url);
+  const tokens = document.querySelector("#extra_tokens").value.trim();
+  if (cards === "" && tokens === "") return;
+  window.prompt(
+    "Copy permalink to clipboard: Ctrl+C, Enter",
+    buildPermalink(cards, tokens)
+  );
 };
-
-// const context = document.querySelector('.card').textContent;
-// const card = parseContext(context);
-// const url = baseUrl + encodeURI(card.name);
 
 const locationHref = new URL(window.location.href);
 if (locationHref.search) {
   const searchParams = new URLSearchParams(locationHref.search);
-  document.getElementById("cards").value = searchParams.get("cards");
-  document.getElementById("extra_tokens").value = searchParams.get("tokens");
+  let cards = searchParams.get("cards") ?? "";
+  let tokens = searchParams.get("tokens") ?? "";
+
+  const zip = searchParams.get("z");
+  if (!!zip) {
+    const zparams = JSON.parse(unzip(zip));
+    if (!!zparams.cards) cards += !!cards ? "\n" : "" + zparams.cards;
+    if (!!zparams.tokens) tokens += !!tokens ? "\n" : "" + zparams.tokens;
+  }
+
+  document.getElementById("cards").value = cards;
+  document.getElementById("extra_tokens").value = tokens;
 }
 renderDeck();
