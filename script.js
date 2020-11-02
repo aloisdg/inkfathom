@@ -73,8 +73,12 @@ function buildCardDataset(cardData) {
 }
 
 function getCardImageUrls(data, name) {
-  // todo: should we handle name case?
-  const cardData = data.data.filter((x) => x.name === name)[0];
+  if (name.includes("lang:")) {
+    name = name.substring(0, name.indexOf("lang:") - 1)
+  }
+  
+  const cardData = data.data.filter((x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase())[0];
+
   if (cardData.card_faces === undefined) return [buildCardDataset(cardData)];
   return [
     buildCardDataset(cardData.card_faces[0]),
@@ -190,7 +194,7 @@ function fill(value, isToken = false) {
             false
           )
         )
-        .catch((e) => console.log(`Booo:\n ${e}`));
+        .catch((e) => console.error(`Booo:\n ${e}`));
     });
 }
 
@@ -408,13 +412,13 @@ function getBase64Image(img, width, height) {
 }
 
 function renderDeck() {
-  const value = document.querySelector(".cards").value.trim();
-  const extraTokens = document.querySelector("#extra_tokens").value.trim();
-  if (value === "" && extraTokens === "") return;
+  const cards = document.querySelector(".cards").value.trim();
+  const tokens = document.querySelector("#extra_tokens").value.trim();
+  if (cards === "" && tokens === "") return;
 
   clean();
-  fill(value);
-  fill(extraTokens, true);
+  if (!!cards) fill(cards);
+  if (!!tokens) fill(tokens, true);
 }
 
 document.querySelector(".print").onclick = function () {
@@ -444,7 +448,7 @@ function switchPrint(e) {
         );
         e.target.textContent = data.data[1].set;
       })
-      .catch((e) => console.log(`Booo:\n ${e}`));
+      .catch((e) => console.error(`Booo:\n ${e}`));
   } else {
     const prints = JSON.parse(img.dataset.alternativePrints);
     const current = prints.findIndex((print) => print.source === img.src);
@@ -567,8 +571,8 @@ document.querySelector("#shareUrl").onclick = function () {
   if (cards === "" && extraTokens === "") return;
 
   const url = new URL(location.href.replace(location.search, ""));
-  url.searchParams.append("cards", cards);
-  url.searchParams.append("tokens", extraTokens);
+  if (!!cards) url.searchParams.append("cards", cards);
+  if (!!extraTokens) url.searchParams.append("tokens", extraTokens);
   window.prompt("Copy permalink to clipboard: Ctrl+C, Enter", url);
 };
 
