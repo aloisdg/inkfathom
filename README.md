@@ -1,6 +1,6 @@
-﻿# Inkfathom Proxy
-
 ![banner](banner_for_light.png)
+
+# Inkfathom Proxy
 
 Inkfathom Proxy is a webapp to format and display a mtg deck to create proxies. [Try it Online!](https://inkfathom.netlify.app)
 
