@@ -43,7 +43,7 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 * Can specify a language #53
 * Add a permalink button #44
 
-Try it [here](https://inkfathom.netlify.app/?cards=1+Jeweled+Lotus%0A1+Annuler+lang%3Afr%0A1+Dare+l%27Allarme+lang%3Ait)
+Try it [here](https://inkfathom.netlify.app/?cards=1+Jeweled+Lotus%0A1+N%C3%A9gation+lang%3Afr+%28RIX%29%0A1+Dare+l%27Allarme+lang%3Ait)
 
 ### 2020-10-26
 
