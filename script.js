@@ -58,7 +58,7 @@ function selectIllustration(illustrations) {
   return selectRandomItems(illustrations).image_url;
 }
 
-function buildCardDataset(cardData) {
+function buildCardDataset(cardData, printsSearchUri, face) {
   return {
     custom: false,
     isBasicLand: cardData.type_line.startsWith("Basic Land"),
@@ -68,7 +68,9 @@ function buildCardDataset(cardData) {
     power: cardData.power,
     toughness: cardData.toughness,
     source: cardData.image_uris.large,
-    printsUri: cardData.prints_search_uri,
+    set: cardData.set,
+    printsUri: printsSearchUri,
+    face: face
   };
 }
 
@@ -81,10 +83,10 @@ function getCardImageUrls(data, name) {
     (x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase()
   )[0];
 
-  if (cardData.card_faces === undefined) return [buildCardDataset(cardData)];
+  if (cardData.card_faces === undefined) return [buildCardDataset(cardData, cardData.prints_search_uri, null)];
   return [
-    buildCardDataset(cardData.card_faces[0]),
-    buildCardDataset(cardData.card_faces[1]),
+    buildCardDataset(cardData.card_faces[0], cardData.prints_search_uri, "0"),
+    buildCardDataset(cardData.card_faces[1], cardData.prints_search_uri, "1"),
   ];
 }
 
@@ -92,10 +94,10 @@ function getTokenImageUrls(data, name) {
   const cardData = data.data.filter((x) => x.name === name)[0];
   if (cardData.name === undefined) return [];
   if (cardData.name === name && cardData.layout === "token")
-    return [buildCardDataset(cardData)];
+    return [buildCardDataset(cardData, cardData.prints_search_uri, null)];
   if (cardData.layout !== "double_faced_token") return [];
   const face = cardData.card_faces.find((f) => f.name === name);
-  return face === undefined ? [] : [buildCardDataset(face)];
+  return face === undefined ? [] : [buildCardDataset(face, face.prints_search_uri, null)];
 }
 
 function appendCards(sources, quantity, isCustom) {
@@ -129,6 +131,7 @@ function appendCards(sources, quantity, isCustom) {
         img.dataset.isBasicLand = source.isBasicLand;
         img.dataset.name = source.name;
         img.dataset.cost = source.cost;
+        img.dataset.face = source.face;
         if (source.printsUri) img.dataset.printsUri = source.printsUri;
         if (source.loyalty) img.dataset.loyalty = source.loyalty;
         if (source.power) img.dataset.power = source.power;
@@ -138,7 +141,7 @@ function appendCards(sources, quantity, isCustom) {
 
       if (!source.custom && source.printsUri) {
         const button = document.createElement("button");
-        button.textContent = "🡺";
+        button.textContent = source.set;
         button.style.fontSize = "16px";
         button.setAttribute("type", "button");
         button.classList.add("absolute", "b-2", "uppercase");
@@ -438,13 +441,16 @@ function switchPrint(e) {
       .then((response) => response.json())
       .then((data) => {
         if (data.total_cards === 1) {
-          e.target.textContent = data.data[0].set;
+          const cardData = img.dataset.face ? data.data[0] : data.data[0].card_faces[img.dataset.face - 1];
+          e.target.textContent = cardData.set;
           return;
         }
-        img.src = data.data[1].image_uris.large;
+
+        const cardData = img.dataset.face ? data.data[1] : data.data[1].card_faces[+img.dataset.face];
+        img.src = cardData.image_uris.large;
         img.dataset.alternativePrints = JSON.stringify(
           data.data.map((x) => ({
-            source: x.image_uris.large,
+            source: [img.dataset.face ? x : x.card_faces[+img.dataset.face]].image_uris.large,
             set: x.set,
           }))
         );
