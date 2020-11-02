@@ -6,7 +6,7 @@ Inkfathom Proxy is a webapp to format and display a mtg deck to create proxies. 
 
 ## Motive
 
-MTG is a great game. A great but expensive game. I can't afford to pay for a card I wont like after two or three games. Sometimes we have to try make our mind. Beside, proxies allow to play with spoilers!
+MTG is a great game. A great but expensive game. I can't afford to pay for a card I wont like after two or three games. Sometimes we have to try to make our mind. Beside, proxies allow to play with spoilers!
 
 Proxies are acceptable in most casual game, so lets go to the printer and brrrr. Since I couldn't find a proxy maker suiting my need, I made my own. I don't want to keep copy/paste image in a document editor (Libre Office, Microsoft Word, or whatever).
 
