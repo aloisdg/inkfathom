@@ -49,16 +49,7 @@ function getNextEdition(editions) {
   return editions[i];
 }
 
-function selectRandomItems(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-// it could be nice to divide to get more of them
-function selectIllustration(illustrations) {
-  return selectRandomItems(illustrations).image_url;
-}
-
-function buildCardDataset(cardData) {
+function buildCardDataset(cardData, printsSearchUri, set, face = null) {
   return {
     custom: false,
     isBasicLand: cardData.type_line.startsWith("Basic Land"),
@@ -68,7 +59,9 @@ function buildCardDataset(cardData) {
     power: cardData.power,
     toughness: cardData.toughness,
     source: cardData.image_uris.large,
-    printsUri: cardData.prints_search_uri,
+    set: set,
+    printsUri: printsSearchUri,
+    face: face,
   };
 }
 
@@ -81,10 +74,23 @@ function getCardImageUrls(data, name) {
     (x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase()
   )[0];
 
-  if (cardData.card_faces === undefined) return [buildCardDataset(cardData)];
+  if (cardData.card_faces === undefined)
+    return [
+      buildCardDataset(cardData, cardData.prints_search_uri, cardData.set),
+    ];
   return [
-    buildCardDataset(cardData.card_faces[0]),
-    buildCardDataset(cardData.card_faces[1]),
+    buildCardDataset(
+      cardData.card_faces[0],
+      cardData.prints_search_uri,
+      cardData.set,
+      0
+    ),
+    buildCardDataset(
+      cardData.card_faces[1],
+      cardData.prints_search_uri,
+      cardData.set,
+      1
+    ),
   ];
 }
 
@@ -92,10 +98,14 @@ function getTokenImageUrls(data, name) {
   const cardData = data.data.filter((x) => x.name === name)[0];
   if (cardData.name === undefined) return [];
   if (cardData.name === name && cardData.layout === "token")
-    return [buildCardDataset(cardData)];
+    return [
+      buildCardDataset(cardData, cardData.prints_search_uri, cardData.set),
+    ];
   if (cardData.layout !== "double_faced_token") return [];
   const face = cardData.card_faces.find((f) => f.name === name);
-  return face === undefined ? [] : [buildCardDataset(face)];
+  return face === undefined
+    ? []
+    : [buildCardDataset(face, face.prints_search_uri, face.set)];
 }
 
 function appendCards(sources, quantity, isCustom) {
@@ -129,6 +139,7 @@ function appendCards(sources, quantity, isCustom) {
         img.dataset.isBasicLand = source.isBasicLand;
         img.dataset.name = source.name;
         img.dataset.cost = source.cost;
+        if (source.face !== null) img.dataset.face = source.face;
         if (source.printsUri) img.dataset.printsUri = source.printsUri;
         if (source.loyalty) img.dataset.loyalty = source.loyalty;
         if (source.power) img.dataset.power = source.power;
@@ -138,10 +149,9 @@ function appendCards(sources, quantity, isCustom) {
 
       if (!source.custom && source.printsUri) {
         const button = document.createElement("button");
-        button.textContent = "🡺";
-        button.style.fontSize = "16px";
+        button.textContent = source.set;
         button.setAttribute("type", "button");
-        button.classList.add("absolute", "b-2", "uppercase");
+        button.classList.add("absolute", "b-2", "uppercase", "text-base");
         button.onclick = switchPrint;
         div.appendChild(button);
       }
@@ -433,22 +443,36 @@ document.querySelector(".display").onclick = renderDeck;
 
 function switchPrint(e) {
   const img = e.target.parentElement.children[1];
+  if (img.dataset.totalCards === "1") {
+    return;
+  }
   if (!img.dataset.alternativePrints) {
     fetch(img.dataset.printsUri)
       .then((response) => response.json())
       .then((data) => {
         if (data.total_cards === 1) {
+          img.dataset.totalCards = 1;
           e.target.textContent = data.data[0].set;
           return;
         }
-        img.src = data.data[1].image_uris.large;
+
+        const current = data.data.findIndex(
+          (x) => (img.dataset.face ? x.card_faces[+img.dataset.face] : x).image_uris.large === img.src
+        );
+        const next = data.data[current === data.data.length - 1 ? 0 : current + 1];
+        img.src = (img.dataset.face
+          ? next.card_faces[+img.dataset.face]
+          : next
+        ).image_uris.large;
+
         img.dataset.alternativePrints = JSON.stringify(
           data.data.map((x) => ({
-            source: x.image_uris.large,
+            source: (img.dataset.face ? x.card_faces[+img.dataset.face] : x)
+              .image_uris.large,
             set: x.set,
           }))
         );
-        e.target.textContent = data.data[1].set;
+        e.target.textContent = next.set;
       })
       .catch((e) => console.error(`Booo:\n ${e}`));
   } else {

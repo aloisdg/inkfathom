@@ -323,6 +323,10 @@ body {
   }
 }
 
+.text-base	{
+  font-size: 1rem;
+}
+
 .flex {
   display: flex;
 }
