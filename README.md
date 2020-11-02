@@ -28,7 +28,8 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 | support custom card          | ✔️         | ❌        | ❌        | ?                 | ❌ |
 | support different card size  | ✔️         | ✔️        | ❌        | ?                 | ❌ |
 | support different paper size | ✔️ | ✔️        | ❌        | ?                 | ❌ |
-| can specificy a set          | ✔️ | ✔️        | ?        | ✔️                 | ✔️ |
+| can specify a set          | ✔️ | ✔️        | ?        | ✔️                 | ✔️ |
+| can specify a language     | ✔️ | ?        | ?        | ?                 | ? |
 | can skip basic land          | ✔️ | ✔️        | ?        | ?                 | ❌ |
 | can print decklist           | ✔️ | ✔️        | ❌        | ?                 | ❌ |
 
@@ -36,6 +37,13 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 1. Anyone can contribute, participate, submit issue, etc. as long as you follow our code of conduct.
 
 ## Changelog
+
+### 2020-11-02
+
+* Can specify a language #53
+* Add a permalink button #44
+
+Try it [here](https://inkfathom.netlify.app/?cards=1+Jeweled+Lotus%0A1+Annuler+lang%3Afr%0A1+Dare+l%27Allarme+lang%3Ait)
 
 ### 2020-10-26
 
