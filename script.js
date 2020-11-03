@@ -123,9 +123,8 @@ function appendCards(sources, quantity, isCustom) {
       );
 
       const loader = document.createElement("div");
-      loader.classList.add("absolute", "lds-ripple");
-      loader.appendChild(document.createElement("div"));
-      loader.appendChild(document.createElement("div"));
+      loader.classList.add("absolute", "z--1");
+      loader.innerHTML = getLoaderHtml(80, 80);
       div.appendChild(loader);
 
       const img = document.createElement("img");
@@ -441,30 +440,49 @@ document.querySelector(".print").onclick = function () {
 
 document.querySelector(".display").onclick = renderDeck;
 
+function getLoaderHtml(width, height) {
+  return `<div class="loader">
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="${width}px" height="${height}px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+  <path fill="#fff" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+    <animateTransform attributeType="xml"
+      attributeName="transform"
+      type="rotate"
+      from="0 25 25"
+      to="360 25 25"
+      dur="0.6s"
+      repeatCount="indefinite"/>
+    </path>
+  </svg>
+  </div>`;
+}
+
 function switchPrint(e) {
   const img = e.target.parentElement.children[1];
   if (img.dataset.totalCards === "1") {
     return;
   }
+  e.target.setAttribute("disabled", true);
+  e.target.innerHTML = getLoaderHtml(20, 20);
+
   if (!img.dataset.alternativePrints) {
     fetch(img.dataset.printsUri)
       .then((response) => response.json())
       .then((data) => {
         if (data.total_cards === 1) {
           img.dataset.totalCards = 1;
+          e.target.removeAttribute("disabled");
           e.target.textContent = data.data[0].set;
           return;
         }
 
         const current = data.data.findIndex(
-          (x) => (img.dataset.face ? x.card_faces[+img.dataset.face] : x).image_uris.large === img.src
+          (x) =>
+            (img.dataset.face ? x.card_faces[+img.dataset.face] : x).image_uris
+              .large === img.src
         );
-        const next = data.data[current === data.data.length - 1 ? 0 : current + 1];
-        img.src = (img.dataset.face
-          ? next.card_faces[+img.dataset.face]
-          : next
-        ).image_uris.large;
-
+        const next =
+          data.data[current === data.data.length - 1 ? 0 : current + 1];
         img.dataset.alternativePrints = JSON.stringify(
           data.data.map((x) => ({
             source: (img.dataset.face ? x.card_faces[+img.dataset.face] : x)
@@ -472,15 +490,25 @@ function switchPrint(e) {
             set: x.set,
           }))
         );
-        e.target.textContent = next.set;
+        img.onload = function () {
+          e.target.textContent = next.set;
+          e.target.removeAttribute("disabled");
+        };
+        img.src = (img.dataset.face
+          ? next.card_faces[+img.dataset.face]
+          : next
+        ).image_uris.large;
       })
       .catch((e) => console.error(`Booo:\n ${e}`));
   } else {
     const prints = JSON.parse(img.dataset.alternativePrints);
     const current = prints.findIndex((print) => print.source === img.src);
     const next = prints[current === prints.length - 1 ? 0 : current + 1];
+    img.onload = function () {
+      e.target.textContent = next.set;
+      e.target.removeAttribute("disabled");
+    };
     img.src = next.source;
-    e.target.textContent = next.set;
   }
 }
 
