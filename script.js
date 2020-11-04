@@ -161,7 +161,7 @@ function appendCards(sources, quantity, isCustom) {
 }
 
 function clean() {
-  document.querySelector("main").innerHTML = "";
+  cleanChildren(document.querySelector("main"));
 }
 
 function isUrl(str) {
@@ -184,16 +184,21 @@ function appendToErrorList(cardName) {
   }
   const li = document.createElement('li');
   li.textContent = cardName;
-  notFoundBanner.firstChildElement.appendChild(li);
+  const ul = notFoundBanner.lastElementChild.lastElementChild;
+  ul.appendChild(li);
+}
+
+function cleanChildren(parent) {
+    while (parent.firstElementChild) {
+      parent.removeChild(parent.firstElementChild);
+  }
 }
 
 function cleanErrorList() {
   if (!notFoundBanner.classList.contains("hidden")) {
     notFoundBanner.classList.add("hidden");
   }
-  while (notFoundBanner.firstChildElement.firstChildElement) {
-      notFoundBanner.firstChildElement.removeChild(notFoundBanner.firstChildElement.firstChildElement);
-  }
+  cleanChildren(notFoundBanner.lastElementChild.lastElementChild);
 }
 
 const keywords = ["Deck", "Sideboard", "Maybeboard"];
