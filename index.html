@@ -33,6 +33,18 @@
     <img src="title.png" alt="Inkfathom Proxy">
   </header>
   <section class="ml-4 mr-2 flex">
+    <div class="error mb-2 relative">
+      <button type="button" class="absolute r-0 py-2 px-3" onclick="this.parentElement.classList.toggle('hidden');">✕</button>
+      <div class="p-2">
+        <span>Sorry. We could not find:</span>
+        <ul style="list-style: inside disc;">
+          <li>1 Relsad</li>
+          <li>1 Relsad</li>
+          <li>1 Relsad</li> 
+          <li>1 Relsad</li>
+        </ul>
+      </div>
+    </div>
     <div class="mb-2 relative">
       <button id="shareUrl" type="button" class="absolute r-0 p-2">🔗</button>
       <textarea id="cards" class="cards rb-0 mb-0_5"
@@ -164,7 +176,8 @@
               </ul>
             </p>
             <p class="mb-2">
-              The <a href="https://github.com/aloisdg/inkfathom/" title="View source code on GitHub">source code</a> of Inkfathom Proxy itself is available under <a
+              The <a href="https://github.com/aloisdg/inkfathom/" title="View source code on GitHub">source code</a> of
+              Inkfathom Proxy itself is available under <a
                 href="https://github.com/aloisdg/inkfathom/blob/master/LICENSE" title="License hosted on GitHub">GPL-3.0
                 License</a>.
             </p>
