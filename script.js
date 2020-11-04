@@ -482,6 +482,10 @@ function getLoaderHtml(width, height) {
   </div>`;
 }
 
+function formatSwitchButtonContent(set, position, total) {
+  return `${set} ${position}/${total}`;
+}
+
 function switchPrint(e) {
   const img = e.target.parentElement.children[1];
   if (img.dataset.totalCards === "1") {
@@ -497,7 +501,7 @@ function switchPrint(e) {
         if (data.total_cards === 1) {
           img.dataset.totalCards = 1;
           e.target.removeAttribute("disabled");
-          e.target.textContent = data.data[0].set;
+          e.target.textContent = formatSwitchButtonContent(data.data[0].set, 1, 1);
           return;
         }
 
@@ -516,7 +520,7 @@ function switchPrint(e) {
           }))
         );
         img.onload = function () {
-          e.target.textContent = next.set;
+          e.target.textContent = formatSwitchButtonContent(next.set, current + 1, data.total_cards);
           e.target.removeAttribute("disabled");
         };
         img.src = (img.dataset.face
@@ -530,7 +534,7 @@ function switchPrint(e) {
     const current = prints.findIndex((print) => print.source === img.src);
     const next = prints[current === prints.length - 1 ? 0 : current + 1];
     img.onload = function () {
-      e.target.textContent = next.set;
+      e.target.textContent = formatSwitchButtonContent(next.set, current + 1, prints.length);
       e.target.removeAttribute("disabled");
     };
     img.src = next.source;
