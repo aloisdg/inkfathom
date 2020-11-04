@@ -333,7 +333,7 @@ textarea {
 }
 
 button[disabled] {
-  opacity:0.95;
+  opacity: 0.95;
 }
 
 main {
@@ -351,6 +351,16 @@ main {
 
 .p-2 {
   padding: 0.5rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 .m-0 {
@@ -425,7 +435,7 @@ select {
 }
 
 main {
-  font-size: 0;
+  font-size: 0; /* ??? */
 }
 
 main img {
@@ -497,6 +507,23 @@ main div:hover button {
 
 .hidden {
   display: none;
+}
+
+.error {
+  background: linear-gradient(to top left, #731900ab 30%, #bf2900ab 100%);
+  border-radius: 6px;
+}
+
+.error > button {
+  background-color: transparent;
+}
+
+.error > button:hover {
+  background-color: #bf2900ab;
+}
+
+.error > button:focus {
+  box-shadow: 0 0 0 2px var(--code);
 }
 
 @media print {
