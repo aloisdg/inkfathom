@@ -177,6 +177,25 @@ function isUrl(str) {
   return !!pattern.test(str);
 }
 
+const notFoundBanner = document.querySelector('.error');
+function appendToErrorList(cardName) {
+  if (notFoundBanner.classList.contains("hidden")) {
+    notFoundBanner.classList.remove("hidden");
+  }
+  const li = document.createElement('li');
+  li.textContent = cardName;
+  notFoundBanner.firstChildElement.appendChild(li);
+}
+
+function cleanErrorList() {
+  if (!notFoundBanner.classList.contains("hidden")) {
+    notFoundBanner.classList.add("hidden");
+  }
+  while (notFoundBanner.firstChildElement.firstChildElement) {
+      notFoundBanner.firstChildElement.removeChild(notFoundBanner.firstChildElement.firstChildElement);
+  }
+}
+
 const keywords = ["Deck", "Sideboard", "Maybeboard"];
 function fill(value, isToken = false) {
   [...value.split("\n")]
@@ -205,7 +224,7 @@ function fill(value, isToken = false) {
             false
           )
         )
-        .catch((e) => console.error(`Booo:\n ${e}`));
+        .catch((e) => { appendToErrorList(card.name); console.error(`Booo:\n ${e}`) });
     });
 }
 
@@ -428,6 +447,7 @@ function renderDeck() {
   if (cards === "" && tokens === "") return;
 
   clean();
+  cleanErrorList();
   if (!!cards) fill(cards);
   if (!!tokens) fill(tokens, true);
 }
