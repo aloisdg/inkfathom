@@ -752,7 +752,7 @@ document.querySelector(".splitTransform").onchange = function (e) {
     imgs.forEach(img => img.src = img.dataset.src);
     return;
   }
-  [...document.querySelectorAll(".deck > div > img[data-face=1]")]
+  [...document.querySelectorAll(`.deck > div > img[data-face="1"]`)]
             .forEach(img => img.parentElement.classList.add("hidden"));
   imgs.forEach((img) => img.src = createSplitTransformCard(mode, img.src, img.parentElement.nextElementSibling.children[1].src));
 };
