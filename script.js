@@ -629,7 +629,7 @@ function createCardAsText(cardName, cardCost, bottomValue) {
 }
 
 document.querySelector(".cardAs").onchange = function (e) {
-  let imgs = document.querySelectorAll(".deck >div > img");
+  let imgs = document.querySelectorAll(".deck > div > img");
   if (imgs.length == 0) return;
   [...imgs]
     .filter((img) => img.dataset.custom === "false")
@@ -646,6 +646,78 @@ document.querySelector(".cardAs").onchange = function (e) {
                   : "")
             );
     });
+};
+
+createSplitTransformCard(mode, front, back) {
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext("2d");
+  canvas.width = 63 * 4;
+  canvas.height = 88 * 4;
+  canvas.style.width = "63mm";
+  canvas.style.height = "88mm";
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (mode  === "frontDiagonalSplit" || mode  === "doubleDiagonalSplit") {
+    drawFront(ctx, width, height, front, function(context) {
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, height);
+      ctx.lineTo(width, 0);
+    });
+  }
+  if (mode  === "backDiagonalSplit" || mode  === "doubleDiagonalSplit") {  
+    drawBack(ctx, width, height, back, function(context) {
+     context.moveTo(width, 0);
+     context.lineTo(0, height);
+     context.lineTo(width, height);
+    });
+  }
+  if (mode  === "frontArtSplit" || mode  === "doubleArtSplit") {
+  drawFront(ctx, width, height, front, function(context) {
+    const w = width;
+    const h = height;
+    const a = 56 / 100 * h;
+    const b = 44 / 100 * h;
+    const c = 1 / 3 * w; 
+    const d = 2 / 3 * w; 
+    context.moveTo(0, 0);
+    context.lineTo(0, a);
+    context.lineTo(c, a);
+    context.lineTo(d, b);
+    context.lineTo(w, b);
+    context.lineTo(w, 0);
+  });}
+  if (mode  === "frontArtSplit" || mode  === "doubleArtSplit") {
+  drawBack(ctx, width, height, back, function(context) {
+    const w = width;
+    const h = height;
+    const a = 56 / 100 * h;
+    const b = 44 / 100 * h;
+    const c = 1 / 3 * w; 
+    const d = 2 / 3 * w; 
+    context.moveTo(0, a);
+    context.lineTo(c, a);
+    context.lineTo(d, b);
+    context.lineTo(w, b);
+    context.lineTo(w, h);
+    context.lineTo(0, h);
+  });}
+  return canvas.toDataURL("image/jpeg", 1.0);
+}
+
+document.querySelector(".splitTransform").onchange = function (e) {
+  const imgs = [...document.querySelectorAll(`.deck > div > img[data-face="0"]`)];
+  if (imgs.length == 0) return;
+  const mode = e.target.value;
+  if (mode === "whithout") {
+    [...document.querySelectorAll(`.deck > div.hidden > img[data-face="1"]`)]
+            .forEach(img => img.parentElement.classList.remove("hidden"));
+    imgs.forEach(img => img.src = img.dataset.src);
+    return;
+  }
+  [...document.querySelectorAll(".deck > div > img[data-face=1]")]
+            .forEach(img => img.parentElement.classList.add("hidden"));
+  imgs.forEach((img) => img.src = createSplitTransformCard(mode, img.src, img.parentElement.nextElementSibling.children[1].src));
 };
 
 document.querySelector("#shareUrl").onclick = function () {
