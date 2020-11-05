@@ -685,7 +685,7 @@ function drawBack(ctx, width, height, source, buildPath) {
   }
 }
 
-createSplitTransformCard(mode, front, back) {
+function createSplitTransformCard(mode, front, back) {
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
   canvas.width = 63 * 4;
