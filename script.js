@@ -696,23 +696,23 @@ function createSplitTransformCard(mode, front, back) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   if (mode  === "frontDiagonalSplit" || mode  === "doubleDiagonalSplit") {
-    drawFront(ctx, width, height, front, function(context) {
+    drawFront(ctx, canvas.width, canvas.height, front, function(context) {
       ctx.moveTo(0, 0);
-      ctx.lineTo(0, height);
-      ctx.lineTo(width, 0);
+      ctx.lineTo(0, canvas.height);
+      ctx.lineTo(canvas.width, 0);
     });
   }
   if (mode  === "backDiagonalSplit" || mode  === "doubleDiagonalSplit") {  
-    drawBack(ctx, width, height, back, function(context) {
-     context.moveTo(width, 0);
-     context.lineTo(0, height);
-     context.lineTo(width, height);
+    drawBack(ctx, canvas.width, canvas.height, back, function(context) {
+     context.moveTo(canvas.width, 0);
+     context.lineTo(0, canvas.height);
+     context.lineTo(canvas.width, canvas.height);
     });
   }
   if (mode  === "frontArtSplit" || mode  === "doubleArtSplit") {
-  drawFront(ctx, width, height, front, function(context) {
-    const w = width;
-    const h = height;
+  drawFront(ctx, canvas.width, canvas.height, front, function(context) {
+    const w = canvas.width;
+    const h = canvas.height;
     const a = 56 / 100 * h;
     const b = 44 / 100 * h;
     const c = 1 / 3 * w; 
@@ -725,9 +725,9 @@ function createSplitTransformCard(mode, front, back) {
     context.lineTo(w, 0);
   });}
   if (mode  === "frontArtSplit" || mode  === "doubleArtSplit") {
-  drawBack(ctx, width, height, back, function(context) {
-    const w = width;
-    const h = height;
+  drawBack(ctx, canvas.width, canvas.height, back, function(context) {
+    const w = canvas.width;
+    const h = canvas.height;
     const a = 56 / 100 * h;
     const b = 44 / 100 * h;
     const c = 1 / 3 * w; 
