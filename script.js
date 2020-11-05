@@ -648,9 +648,10 @@ document.querySelector(".cardAs").onchange = function (e) {
     });
 };
 
-function drawFront(ctx, width, height, source, buildPath) {
+function drawFront(img, canvas, ctx, width, height, source, buildPath, part) {
   const front = new Image();
-  front.src = source;
+  front.src = source;          
+  front.crossOrigin = "anonymous";
   front.onload = function(){
     ctx.save();
     ctx.beginPath();
@@ -659,6 +660,7 @@ function drawFront(ctx, width, height, source, buildPath) {
     ctx.clip();
     ctx.drawImage(front, 0, 0, width, height);
     ctx.restore();
+    setNewSplitTransformCardSource(img, canvas);
   }
 }
 
@@ -668,9 +670,10 @@ function rotate(ctx, width, height) {
   ctx.translate(-width/2, -height/2);
 }
 
-function drawBack(ctx, width, height, source, buildPath) {
+function drawBack(img, canvas, ctx, width, height, source, buildPath, part) {
   const back = new Image();
-  back.src = source;
+  back.src = source;          
+  back.crossOrigin = "anonymous";
   back.onload = function(){ 
     ctx.save();  
     
@@ -682,10 +685,11 @@ function drawBack(ctx, width, height, source, buildPath) {
     rotate(ctx, width, height);
     ctx.drawImage(back, 0, 0, width, height);
     ctx.restore();
+    setNewSplitTransformCardSource(img, canvas);
   }
 }
 
-function createSplitTransformCard(mode, front, back) {
+function createSplitTransformCard(img, mode, front, back) {
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
   canvas.width = 63 * 4;
@@ -696,21 +700,21 @@ function createSplitTransformCard(mode, front, back) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   if (mode  === "frontDiagonalSplit" || mode  === "doubleDiagonalSplit") {
-    drawFront(ctx, canvas.width, canvas.height, front, function(context) {
+    drawFront(img, canvas, ctx, canvas.width, canvas.height, front, function(context) {
       ctx.moveTo(0, 0);
       ctx.lineTo(0, canvas.height);
       ctx.lineTo(canvas.width, 0);
     });
   }
   if (mode  === "backDiagonalSplit" || mode  === "doubleDiagonalSplit") {  
-    drawBack(ctx, canvas.width, canvas.height, back, function(context) {
+    drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function(context) {
      context.moveTo(canvas.width, 0);
      context.lineTo(0, canvas.height);
      context.lineTo(canvas.width, canvas.height);
     });
   }
   if (mode  === "frontArtSplit" || mode  === "doubleArtSplit") {
-  drawFront(ctx, canvas.width, canvas.height, front, function(context) {
+  drawFront(img, canvas, ctx, canvas.width, canvas.height, front, function(context) {
     const w = canvas.width;
     const h = canvas.height;
     const a = 56 / 100 * h;
@@ -725,7 +729,7 @@ function createSplitTransformCard(mode, front, back) {
     context.lineTo(w, 0);
   });}
   if (mode  === "frontArtSplit" || mode  === "doubleArtSplit") {
-  drawBack(ctx, canvas.width, canvas.height, back, function(context) {
+  drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function(context) {
     const w = canvas.width;
     const h = canvas.height;
     const a = 56 / 100 * h;
@@ -739,14 +743,17 @@ function createSplitTransformCard(mode, front, back) {
     context.lineTo(w, h);
     context.lineTo(0, h);
   });}
-  return canvas.toDataURL("image/jpeg", 1.0);
+}
+
+function setNewSplitTransformCardSource(img, canvas) {
+  img.src = canvas.toDataURL("image/jpeg", 1.0);
 }
 
 document.querySelector(".splitTransform").onchange = function (e) {
   const imgs = [...document.querySelectorAll(`.deck > div > img[data-face="0"]`)];
   if (imgs.length == 0) return;
   const mode = e.target.value;
-  if (mode === "whithout") {
+  if (mode === "without") {
     [...document.querySelectorAll(`.deck > div.hidden > img[data-face="1"]`)]
             .forEach(img => img.parentElement.classList.remove("hidden"));
     imgs.forEach(img => img.src = img.dataset.src);
@@ -754,7 +761,7 @@ document.querySelector(".splitTransform").onchange = function (e) {
   }
   [...document.querySelectorAll(`.deck > div > img[data-face="1"]`)]
             .forEach(img => img.parentElement.classList.add("hidden"));
-  imgs.forEach((img) => img.src = createSplitTransformCard(mode, img.src, img.parentElement.nextElementSibling.children[1].src));
+  imgs.forEach((img) => createSplitTransformCard(img, mode, img.src, img.parentElement.nextElementSibling.children[1].src));
 };
 
 document.querySelector("#shareUrl").onclick = function () {
