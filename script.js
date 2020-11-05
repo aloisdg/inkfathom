@@ -648,6 +648,43 @@ document.querySelector(".cardAs").onchange = function (e) {
     });
 };
 
+function drawFront(ctx, width, height, source, buildPath) {
+  const front = new Image();
+  front.src = source;
+  front.onload = function(){
+    ctx.save();
+    ctx.beginPath();
+    buildPath(ctx);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(front, 0, 0, width, height);
+    ctx.restore();
+  }
+}
+
+function rotate(ctx, width, height) {
+  ctx.translate(width/2, height/2);
+  ctx.rotate(Math.PI); 
+  ctx.translate(-width/2, -height/2);
+}
+
+function drawBack(ctx, width, height, source, buildPath) {
+  const back = new Image();
+  back.src = source;
+  back.onload = function(){ 
+    ctx.save();  
+    
+    ctx.beginPath();
+    buildPath(ctx);    
+    ctx.closePath();
+    ctx.clip();
+    
+    rotate(ctx, width, height);
+    ctx.drawImage(back, 0, 0, width, height);
+    ctx.restore();
+  }
+}
+
 createSplitTransformCard(mode, front, back) {
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
