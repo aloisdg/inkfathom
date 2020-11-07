@@ -74,24 +74,22 @@ function getCardImageUrls(data, name) {
     (x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase()
   )[0];
 
-  if (cardData.card_faces === undefined)
+  if (cardData.card_faces && cardData.card_faces.image_uris)
     return [
-      buildCardDataset(cardData, cardData.prints_search_uri, cardData.set),
+      buildCardDataset(
+        cardData.card_faces[0],
+        cardData.prints_search_uri,
+        cardData.set,
+        0
+      ),
+      buildCardDataset(
+        cardData.card_faces[1],
+        cardData.prints_search_uri,
+        cardData.set,
+        1
+      ),
     ];
-  return [
-    buildCardDataset(
-      cardData.card_faces[0],
-      cardData.prints_search_uri,
-      cardData.set,
-      0
-    ),
-    buildCardDataset(
-      cardData.card_faces[1],
-      cardData.prints_search_uri,
-      cardData.set,
-      1
-    ),
-  ];
+  return [buildCardDataset(cardData, cardData.prints_search_uri, cardData.set)];
 }
 
 function getTokenImageUrls(data, name) {
