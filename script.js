@@ -514,7 +514,7 @@ function switchPrint(e) {
         const current = data.data.findIndex(
           (x) =>
             (img.dataset.face ? x.card_faces[+img.dataset.face] : x).image_uris
-              .large === img.src
+              .large === img.dataset.src
         );
         const next =
           data.data[current === data.data.length - 1 ? 0 : current + 1];
@@ -533,15 +533,16 @@ function switchPrint(e) {
           );
           e.target.removeAttribute("disabled");
         };
-        img.src = (img.dataset.face
+        img.dataset.src = (img.dataset.face
           ? next.card_faces[+img.dataset.face]
           : next
         ).image_uris.large;
+        img.src = img.dataset.src;
       })
       .catch((e) => console.error(`Booo:\n ${e}`));
   } else {
     const prints = JSON.parse(img.dataset.alternativePrints);
-    const current = prints.findIndex((print) => print.source === img.src);
+    const current = prints.findIndex((print) => print.source === img.dataset.src);
     const next = prints[current === prints.length - 1 ? 0 : current + 1];
     img.onload = () => {
       e.target.textContent = formatSwitchButtonContent(
@@ -551,7 +552,8 @@ function switchPrint(e) {
       );
       e.target.removeAttribute("disabled");
     };
-    img.src = next.source;
+    img.dataset.src = next.source;
+    img.src = img.dataset.src;
   }
 }
 
@@ -842,6 +844,62 @@ function createSplitTransformCard(img, mode, front, back) {
         context.lineTo(0, h);
       })
     );
+  } else if (mode === "frontHorizontalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawFront(img, canvas, ctx, canvas.width, canvas.height, front, function (
+      context
+    ) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const a = h / 2;
+      context.moveTo(0, 0);
+      context.lineTo(0, a);
+      context.lineTo(w, a);
+      context.lineTo(w, 0);
+    });
+  } else if (mode === "backHorizontalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+      context
+    ) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const a = h / 2;
+      context.moveTo(0, a);
+      context.lineTo(w, a);
+      context.lineTo(w, h);
+      context.lineTo(0, h);
+    });
+  } else if (mode === "doubleHorizontalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawFront(
+      img,
+      canvas,
+      ctx,
+      canvas.width,
+      canvas.height,
+      front,
+      function (context) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const a = h / 2;
+        context.moveTo(0, 0);
+        context.lineTo(0, a);
+        context.lineTo(w, a);
+        context.lineTo(w, 0);
+      },
+      drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+        context
+      ) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const a = h / 2;
+        context.moveTo(0, a);
+        context.lineTo(w, a);
+        context.lineTo(w, h);
+        context.lineTo(0, h);
+      })
+    );
   }
 }
 
@@ -871,14 +929,11 @@ document.querySelector(".splitTransform").onchange = function (e) {
     ...document.querySelectorAll(`.deck > div > img[data-face="1"]`),
   ].forEach((img) => img.parentElement.classList.add("hidden"));
   imgs.forEach((img) => {
-    // hackfix: we have to reset the img src because from some reason the canvas is wrongly scoped.
-    img.src = img.dataset.src;
-    // ...then everything works as expected.
     createSplitTransformCard(
       img,
       mode,
-      img.src,
-      img.parentElement.nextElementSibling.children[1].src
+      img.dataset.src,
+      img.parentElement.nextElementSibling.children[1].dataset.src
     );
   });
 };
