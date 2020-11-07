@@ -204,7 +204,7 @@ function cleanErrorList() {
 const keywords = ["Deck", "Sideboard", "Maybeboard"];
 function fill(value, isToken = false) {
   [...value.split("\n")]
-    .filter((line) => !keywords.includes(line.trim()) || !!line.trim())
+    .filter((line) => !!line.trim() && !keywords.includes(line.trim()))
     .forEach((context) => {
       const card = parseContext(context);
       if (isUrl(card.name)) {
