@@ -74,7 +74,7 @@ function getCardImageUrls(data, name) {
     (x) => (x.printed_name ?? x.name).toUpperCase() === name.toUpperCase()
   )[0];
 
-  if (cardData.card_faces && cardData.card_faces.image_uris)
+  if (cardData.card_faces && cardData.card_faces[0].image_uris)
     return [
       buildCardDataset(
         cardData.card_faces[0],
