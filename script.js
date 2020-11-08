@@ -175,20 +175,20 @@ function isUrl(str) {
   return !!pattern.test(str);
 }
 
-const notFoundBanner = document.querySelector('.error');
+const notFoundBanner = document.querySelector(".error");
 function appendToErrorList(cardName) {
   if (notFoundBanner.classList.contains("hidden")) {
     notFoundBanner.classList.remove("hidden");
   }
-  const li = document.createElement('li');
+  const li = document.createElement("li");
   li.textContent = cardName;
   const ul = notFoundBanner.lastElementChild.lastElementChild;
   ul.appendChild(li);
 }
 
 function cleanChildren(parent) {
-    while (parent.firstElementChild) {
-      parent.removeChild(parent.firstElementChild);
+  while (parent.firstElementChild) {
+    parent.removeChild(parent.firstElementChild);
   }
 }
 
@@ -227,7 +227,10 @@ function fill(value, isToken = false) {
             false
           )
         )
-        .catch((e) => { appendToErrorList(card.name); console.error(`Booo:\n ${e}`) });
+        .catch((e) => {
+          appendToErrorList(card.name);
+          console.error(`Booo:\n ${e}`);
+        });
     });
 }
 
@@ -480,9 +483,8 @@ function getLoaderHtml(width, height) {
   </div>`;
 }
 
-function formatSwitchButtonContent(set, position, total) {
-  return `${set} ${position}/${total}`;
-}
+const formatSwitchButtonContent = (set, position, total) =>
+  `${set} ${position}/${total}`;
 
 function switchPrint(e) {
   const img = e.target.parentElement.children[1];
@@ -499,14 +501,18 @@ function switchPrint(e) {
         if (data.total_cards === 1) {
           img.dataset.totalCards = 1;
           e.target.removeAttribute("disabled");
-          e.target.textContent = formatSwitchButtonContent(data.data[0].set, 1, 1);
+          e.target.textContent = formatSwitchButtonContent(
+            data.data[0].set,
+            1,
+            1
+          );
           return;
         }
 
         const current = data.data.findIndex(
           (x) =>
             (img.dataset.face ? x.card_faces[+img.dataset.face] : x).image_uris
-              .large === img.src
+              .large === img.dataset.src
         );
         const next =
           data.data[current === data.data.length - 1 ? 0 : current + 1];
@@ -518,24 +524,34 @@ function switchPrint(e) {
           }))
         );
         img.onload = function () {
-          e.target.textContent = formatSwitchButtonContent(next.set, current + 1, data.total_cards);
+          e.target.textContent = formatSwitchButtonContent(
+            next.set,
+            current + 1,
+            data.total_cards
+          );
           e.target.removeAttribute("disabled");
         };
-        img.src = (img.dataset.face
+        img.dataset.src = (img.dataset.face
           ? next.card_faces[+img.dataset.face]
           : next
         ).image_uris.large;
+        img.src = img.dataset.src;
       })
       .catch((e) => console.error(`Booo:\n ${e}`));
   } else {
     const prints = JSON.parse(img.dataset.alternativePrints);
-    const current = prints.findIndex((print) => print.source === img.src);
+    const current = prints.findIndex((print) => print.source === img.dataset.src);
     const next = prints[current === prints.length - 1 ? 0 : current + 1];
-    img.onload = function () {
-      e.target.textContent = formatSwitchButtonContent(next.set, current + 1, prints.length);
+    img.onload = () => {
+      e.target.textContent = formatSwitchButtonContent(
+        next.set,
+        current + 1,
+        prints.length
+      );
       e.target.removeAttribute("disabled");
     };
-    img.src = next.source;
+    img.dataset.src = next.source;
+    img.src = img.dataset.src;
   }
 }
 
@@ -627,7 +643,7 @@ function createCardAsText(cardName, cardCost, bottomValue) {
 }
 
 document.querySelector(".cardAs").onchange = function (e) {
-  let imgs = document.querySelectorAll(".deck >div > img");
+  let imgs = document.querySelectorAll(".deck > div > img");
   if (imgs.length == 0) return;
   [...imgs]
     .filter((img) => img.dataset.custom === "false")
@@ -644,6 +660,280 @@ document.querySelector(".cardAs").onchange = function (e) {
                   : "")
             );
     });
+};
+
+function rotateContext(ctx, width, height) {
+  ctx.translate(width / 2, height / 2);
+  ctx.rotate(Math.PI);
+  ctx.translate(-width / 2, -height / 2);
+}
+
+function drawFront(
+  img,
+  canvas,
+  ctx,
+  width,
+  height,
+  source,
+  buildPath,
+  drawBack = null
+) {
+  const front = new Image();
+  front.src = source;
+  front.crossOrigin = "anonymous";
+  front.onload = () => {
+    ctx.save();
+    ctx.beginPath();
+    buildPath(ctx);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(front, 0, 0, width, height);
+    ctx.restore();
+    setNewSplitTransformCardSource(img, canvas, drawBack);
+  };
+}
+
+function drawBack(img, canvas, ctx, width, height, source, buildPath) {
+  const back = new Image();
+  back.src = source;
+  back.crossOrigin = "anonymous";
+  back.onload = () => {
+    ctx.save();
+    ctx.beginPath();
+    buildPath(ctx);
+    ctx.closePath();
+    ctx.clip();
+    rotateContext(ctx, width, height);
+    ctx.drawImage(back, 0, 0, width, height);
+    ctx.restore();
+    setNewSplitTransformCardSource(img, canvas);
+  };
+}
+
+function initCanvas() {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = 63 * 4;
+  canvas.height = 88 * 4;
+  canvas.style.width = "63mm";
+  canvas.style.height = "88mm";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  return [canvas, ctx];
+}
+
+function createSplitTransformCard(img, mode, front, back) {
+  if (mode === "frontDiagonalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawFront(img, canvas, ctx, canvas.width, canvas.height, front, function (
+      context
+    ) {
+      context.moveTo(0, 0);
+      context.lineTo(0, canvas.height);
+      context.lineTo(canvas.width, 0);
+    });
+  } else if (mode === "backDiagonalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+      context
+    ) {
+      context.moveTo(canvas.width, 0);
+      context.lineTo(0, canvas.height);
+      context.lineTo(canvas.width, canvas.height);
+    });
+  } else if (mode === "doubleDiagonalSplit") {
+    const [canvas, ctx] = initCanvas();
+    debugger;
+    drawFront(
+      img,
+      canvas,
+      ctx,
+      canvas.width,
+      canvas.height,
+      front,
+      function (context) {
+        context.moveTo(0, 0);
+        context.lineTo(0, canvas.height);
+        context.lineTo(canvas.width, 0);
+      },
+      () =>
+        drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+          context
+        ) {
+          context.moveTo(canvas.width, 0);
+          context.lineTo(0, canvas.height);
+          context.lineTo(canvas.width, canvas.height);
+        })
+    );
+  } else if (mode === "frontArtSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawFront(img, canvas, ctx, canvas.width, canvas.height, front, function (
+      context
+    ) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const a = (56 / 100) * h;
+      const b = (44 / 100) * h;
+      const c = (1 / 3) * w;
+      const d = (2 / 3) * w;
+      context.moveTo(0, 0);
+      context.lineTo(0, a);
+      context.lineTo(c, a);
+      context.lineTo(d, b);
+      context.lineTo(w, b);
+      context.lineTo(w, 0);
+    });
+  } else if (mode === "backArtSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+      context
+    ) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const a = (56 / 100) * h;
+      const b = (44 / 100) * h;
+      const c = (1 / 3) * w;
+      const d = (2 / 3) * w;
+      context.moveTo(0, a);
+      context.lineTo(c, a);
+      context.lineTo(d, b);
+      context.lineTo(w, b);
+      context.lineTo(w, h);
+      context.lineTo(0, h);
+    });
+  } else if (mode === "doubleArtSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawFront(
+      img,
+      canvas,
+      ctx,
+      canvas.width,
+      canvas.height,
+      front,
+      function (context) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const a = (56 / 100) * h;
+        const b = (44 / 100) * h;
+        const c = (1 / 3) * w;
+        const d = (2 / 3) * w;
+        context.moveTo(0, 0);
+        context.lineTo(0, a);
+        context.lineTo(c, a);
+        context.lineTo(d, b);
+        context.lineTo(w, b);
+        context.lineTo(w, 0);
+      },
+      drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+        context
+      ) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const a = (56 / 100) * h;
+        const b = (44 / 100) * h;
+        const c = (1 / 3) * w;
+        const d = (2 / 3) * w;
+        context.moveTo(0, a);
+        context.lineTo(c, a);
+        context.lineTo(d, b);
+        context.lineTo(w, b);
+        context.lineTo(w, h);
+        context.lineTo(0, h);
+      })
+    );
+  } else if (mode === "frontHorizontalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawFront(img, canvas, ctx, canvas.width, canvas.height, front, function (
+      context
+    ) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const a = h / 2;
+      context.moveTo(0, 0);
+      context.lineTo(0, a);
+      context.lineTo(w, a);
+      context.lineTo(w, 0);
+    });
+  } else if (mode === "backHorizontalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+      context
+    ) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const a = h / 2;
+      context.moveTo(0, a);
+      context.lineTo(w, a);
+      context.lineTo(w, h);
+      context.lineTo(0, h);
+    });
+  } else if (mode === "doubleHorizontalSplit") {
+    const [canvas, ctx] = initCanvas();
+    drawFront(
+      img,
+      canvas,
+      ctx,
+      canvas.width,
+      canvas.height,
+      front,
+      function (context) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const a = h / 2;
+        context.moveTo(0, 0);
+        context.lineTo(0, a);
+        context.lineTo(w, a);
+        context.lineTo(w, 0);
+      },
+      drawBack(img, canvas, ctx, canvas.width, canvas.height, back, function (
+        context
+      ) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const a = h / 2;
+        context.moveTo(0, a);
+        context.lineTo(w, a);
+        context.lineTo(w, h);
+        context.lineTo(0, h);
+      })
+    );
+  }
+}
+
+function setNewSplitTransformCardSource(img, canvas, continueWith = null) {
+  // note: I promise that I will switch to promise later on.
+  if (continueWith !== null) {
+    continueWith();
+  } else {
+    img.src = canvas.toDataURL("image/jpeg", 1.0);
+  }
+}
+
+document.querySelector(".splitTransform").onchange = function (e) {
+  const imgs = [
+    ...document.querySelectorAll(`.deck > div > img[data-face="0"]`),
+  ];
+  if (imgs.length == 0) return;
+  const mode = e.target.value;
+  if (mode === "without") {
+    [
+      ...document.querySelectorAll(`.deck > div.hidden > img[data-face="1"]`),
+    ].forEach((img) => img.parentElement.classList.remove("hidden"));
+    imgs.forEach((img) => (img.src = img.dataset.src));
+    return;
+  }
+  [
+    ...document.querySelectorAll(`.deck > div > img[data-face="1"]`),
+  ].forEach((img) => img.parentElement.classList.add("hidden"));
+  imgs.forEach((img) => {
+    createSplitTransformCard(
+      img,
+      mode,
+      img.dataset.src,
+      img.parentElement.nextElementSibling.children[1].dataset.src
+    );
+  });
 };
 
 document.querySelector("#shareUrl").onclick = function () {
@@ -663,4 +953,6 @@ if (locationHref.search) {
   document.getElementById("cards").value = searchParams.get("cards");
   document.getElementById("extra_tokens").value = searchParams.get("tokens");
 }
+
 renderDeck();
+document.querySelector(".splitTransform").value = "without";
