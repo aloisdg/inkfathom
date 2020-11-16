@@ -260,6 +260,26 @@ const sheetFormat = {
     width: 105,
     height: 148,
   },
+  halfletter: {
+    width: 140,
+    height: 216,
+  },
+  letter: {
+    width: 216,
+    height: 356,
+  },
+  legal: {
+    width: 216,
+    height: 356,
+  },
+  juniorlegal: {
+    width: 127,
+    height: 203,
+  },
+  tabloid: {
+    width: 279,
+    height: 432,
+  },
 };
 
 const { jsPDF } = window.jspdf;
