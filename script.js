@@ -432,16 +432,17 @@ function print() {
 }
 
 function getBase64Image(img, width, height) {
+	const biggerFactor = 4; // hackfix
   const classes = img.className;
   img.className = "";
   var canvas = document.createElement("canvas");
-  canvas.width = img.width;
-  canvas.height = img.height;
+  canvas.width = parseInt(img.width) * biggerFactor;
+  canvas.height = parseInt(img.height) * biggerFactor;
   var ctx = canvas.getContext("2d");
-  ctx.drawImage(img, 0, 0, img.width, img.height);
+  ctx.drawImage(img, 0, 0, parseInt(img.width) * biggerFactor, parseInt(img.height) * biggerFactor);
   var dataURL = canvas.toDataURL("image/jpg");
   img.className = classes;
-  return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+  return dataURL.replace(/^data:image\/jpg;base64,/, "");
 }
 
 function renderDeck() {
