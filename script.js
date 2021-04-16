@@ -2,11 +2,17 @@ let deckElement = document.querySelector(".deck");
 const baseUrl = "https://api.scryfall.com/cards/search?q=";
 const cardPath = "name=";
 const tokenPath = "t:token%20name=";
+const emblemPath = "t:emblem%20name=";
 
 const getCardUrl = (cardName, set) =>
   `${baseUrl}${cardPath}${encodeURI(cardName)}${!!set ? `%20set:${set}` : ""}`;
+
 const getTokenUrl = (cardName, set) =>
   `${baseUrl}${tokenPath}${encodeURI(cardName)}${
+    !!set ? `%20set:${set.length === 3 ? "t" : ""}${set}` : ""
+  }`;
+const getEmblemUrl = (cardName, set) =>
+  `${baseUrl}${emblemPath}${encodeURI(cardName)}${
     !!set ? `%20set:${set.length === 3 ? "t" : ""}${set}` : ""
   }`;
 
@@ -106,6 +112,20 @@ function getTokenImageUrls(data, name) {
     : [buildCardDataset(face, face.prints_search_uri, face.set)];
 }
 
+function getEmblemImageUrls(data, name) {
+  const cardData = data.data.filter((x) => x.name === name + " Emblem")[0];
+  if (cardData.name === undefined) return [];
+  if (cardData.name === name + " Emblem" && cardData.layout === "emblem")
+    return [
+      buildCardDataset(cardData, cardData.prints_search_uri, cardData.set),
+    ];
+  if (cardData.layout !== "double_faced_emblem") return []; // note: is it possible?
+  const face = cardData.card_faces.find((f) => f.name === name);
+  return face === undefined
+    ? []
+    : [buildCardDataset(face, face.prints_search_uri, face.set)];
+}
+
 function appendCards(sources, quantity, isCustom) {
   sources.forEach((source) => {
     for (let i = 0; i < quantity; i++) {
@@ -198,8 +218,26 @@ function cleanErrorList() {
   cleanChildren(notFoundBanner.lastElementChild.lastElementChild);
 }
 
+const CardType = {
+  Classic: "Classic",
+  Token: "Token",
+  Emblem: "Emblem",
+};
+
+function getTypeUrl(cardType, name, set) {
+  if (cardType === CardType.Token) return getTokenUrl(name, set);
+  if (cardType === CardType.Emblem) return getEmblemUrl(name, set);
+  return getCardUrl(name, set);
+}
+
+function getTypeImageUrls(cardType, data, name, edition) {
+  if (cardType === CardType.Token) return getTokenImageUrls(data, name);
+  if (cardType === CardType.Emblem) return getEmblemImageUrls(data, name);
+  return getCardImageUrls(data, name, edition);
+}
+
 const keywords = ["Deck", "Sideboard", "Maybeboard"];
-function fill(value, isToken = false) {
+function fill(value, cardType) {
   [...value.split("\n")]
     .filter((line) => !!line.trim() && !keywords.includes(line.trim()))
     .forEach((context) => {
@@ -212,16 +250,12 @@ function fill(value, isToken = false) {
         );
         return;
       }
-      const url = isToken
-        ? getTokenUrl(card.name, card.set)
-        : getCardUrl(card.name, card.set);
+      const url = getTypeUrl(cardType, card.name, card.set);
       fetch(url)
         .then((response) => response.json())
         .then((data) =>
           appendCards(
-            isToken
-              ? getTokenImageUrls(data, card.name)
-              : getCardImageUrls(data, card.name, card.edition),
+            getTypeImageUrls(cardType, data, card.name, card.edition),
             card.quantity,
             false
           )
@@ -456,12 +490,14 @@ function getBase64Image(img, width, height) {
 function renderDeck() {
   const cards = document.querySelector(".cards").value.trim();
   const tokens = document.querySelector("#extra_tokens").value.trim();
-  if (cards === "" && tokens === "") return;
+  const emblems = document.querySelector("#extra_emblems").value.trim();
+  if (cards === "" && tokens === "" && emblems === "") return;
 
   clean();
   cleanErrorList();
-  if (!!cards) fill(cards);
-  if (!!tokens) fill(tokens, true);
+  if (!!cards) fill(cards, CardType.Classic);
+  if (!!tokens) fill(tokens, CardType.Token);
+  if (!!tokens) fill(emblems, CardType.Emblem);
 }
 
 document.querySelector(".print").onclick = function () {
@@ -670,11 +706,13 @@ document.querySelector(".cardAs").onchange = function (e) {
 document.querySelector("#shareUrl").onclick = function () {
   const cards = document.querySelector("#cards").value.trim();
   const extraTokens = document.querySelector("#extra_tokens").value.trim();
-  if (cards === "" && extraTokens === "") return;
+  const extraEmblems = document.querySelector("#extra_emblems").value.trim();
+  if (cards === "" && extraTokens === "" && extraEmblems === "") return;
 
   const url = new URL(location.href.replace(location.search, ""));
   if (!!cards) url.searchParams.append("cards", cards);
   if (!!extraTokens) url.searchParams.append("tokens", extraTokens);
+  if (!!extraEmblems) url.searchParams.append("emblems", extraEmblems);
   window.prompt("Copy permalink to clipboard: Ctrl+C, Enter", url);
 };
 
@@ -683,5 +721,6 @@ if (locationHref.search) {
   const searchParams = new URLSearchParams(locationHref.search);
   document.getElementById("cards").value = searchParams.get("cards");
   document.getElementById("extra_tokens").value = searchParams.get("tokens");
+  document.getElementById("extra_emblems").value = searchParams.get("emblems");
 }
 renderDeck();

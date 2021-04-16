@@ -12,65 +12,72 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 
 [mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/), [MTG Proxy Generator](https://philo-jh.github.io/MTG-Proxy-Generator/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like [Tolarian Copyshop](https://bitbucket.org/tolarianlibrarians/mtg-tolarian-copyshop/downloads/) too. I create a comparaison table, feel free to open an issue if I missed anything:
 
-|                              | inkfathom | mtgprint | proxymtg | tolarian copyshop | MTG Proxy Generator |
-|------------------------------|-----------|----------|----------|-------------------|---------------------|
-| is free                      | ✔️         | ✔️        | ✔️        | ✔️                 | ✔️ |
-| is ad-free                   | ✔️         | ✔️        | ✔️        | ✔️                 | ✔️ |
-| is privacy friendly<sup>1</sup> | ✔️         | ❌        | ❌        | ✔️                 | ✔️ |
-| is open source               | ✔️         | ❌        | ❌        | ✔️                 | ✔️ |
-| is online                    | ✔️         | ✔️        | ✔️        | ❌                 | ✔️ |
-| is cross plateform           | ✔️         | ✔️        | ✔️        | ❌                 | ✔️ |
-| is responsive                | ✔️         | ✔️        | ✔️        | ❌                 | ✔️ |
-| is community-driven<sup>2</sup> | ✔️         | ❌        | ❌        | ❌                 | ✔️ | ✔️ |
-| support text-only            | ✔️         | ❌        | ❌        | [🚧 WIP](https://trello.com/c/fu3vex2u/72-text-only-print-option)         | ❌ |
-| support token                | ✔️         | ✔️        | ✔️        | ?                 | ✔️ |
-| support flip card            | ✔️         | ✔️        | ❌        | [🚧 WIP](https://trello.com/c/aesAIHhO/73-print-front-and-backside-of-double-faced-cards)                 | ❌ |
-| support custom card          | ✔️         | ❌        | ❌        | ?                 | ❌ |
-| support different card size  | ✔️         | ✔️        | ❌        | ?                 | ❌ |
-| support different paper size | ✔️ | ✔️        | ❌        | ?                 | ❌ |
-| can specify a set          | ✔️ | ✔️        | ?        | ✔️                 | ✔️ |
-| can specify a language     | ✔️ | ?        | ?        | ?                 | ? |
-| can skip basic land          | ✔️ | ✔️        | ?        | ?                 | ❌ |
-| can print decklist           | ✔️ | ✔️        | ❌        | ?                 | ❌ |
+|                                 | inkfathom | mtgprint | proxymtg | tolarian copyshop                                                                         | MTG Proxy Generator |
+| ------------------------------- | --------- | -------- | -------- | ----------------------------------------------------------------------------------------- | ------------------- | --- |
+| is free                         | ✔️        | ✔️       | ✔️       | ✔️                                                                                        | ✔️                  |
+| is ad-free                      | ✔️        | ✔️       | ✔️       | ✔️                                                                                        | ✔️                  |
+| is privacy friendly<sup>1</sup> | ✔️        | ❌       | ❌       | ✔️                                                                                        | ✔️                  |
+| is open source                  | ✔️        | ❌       | ❌       | ✔️                                                                                        | ✔️                  |
+| is online                       | ✔️        | ✔️       | ✔️       | ❌                                                                                        | ✔️                  |
+| is cross plateform              | ✔️        | ✔️       | ✔️       | ❌                                                                                        | ✔️                  |
+| is responsive                   | ✔️        | ✔️       | ✔️       | ❌                                                                                        | ✔️                  |
+| is community-driven<sup>2</sup> | ✔️        | ❌       | ❌       | ❌                                                                                        | ✔️                  | ✔️  |
+| support text-only               | ✔️        | ❌       | ❌       | [🚧 WIP](https://trello.com/c/fu3vex2u/72-text-only-print-option)                         | ❌                  |
+| support token                   | ✔️        | ✔️       | ✔️       | ?                                                                                         | ✔️                  |
+| support emblems                 | ✔️        | ?        | ?        | ?                                                                                         | ✔️                  |
+| support flip card               | ✔️        | ✔️       | ❌       | [🚧 WIP](https://trello.com/c/aesAIHhO/73-print-front-and-backside-of-double-faced-cards) | ❌                  |
+| support custom card             | ✔️        | ❌       | ❌       | ?                                                                                         | ❌                  |
+| support different card size     | ✔️        | ✔️       | ❌       | ?                                                                                         | ❌                  |
+| support different paper size    | ✔️        | ✔️       | ❌       | ?                                                                                         | ❌                  |
+| can specify a set               | ✔️        | ✔️       | ?        | ✔️                                                                                        | ✔️                  |
+| can specify a language          | ✔️        | ?        | ?        | ?                                                                                         | ?                   |
+| can skip basic land             | ✔️        | ✔️       | ?        | ?                                                                                         | ❌                  |
+| can print decklist              | ✔️        | ✔️       | ❌       | ?                                                                                         | ❌                  |
 
 1. ublock origin wont block anything on the page.
 1. Anyone can contribute, participate, submit issue, etc. as long as you follow our code of conduct.
 
 ## Changelog
 
+### 2021-04-16
+
+- Handle emblems
+
+Try it [here](file:///C:/Users/alois/source/diab/inkfathom/index.html?cards=2+Duress+%28M19%29&tokens=1+Squirrel+%28UND%29%0A1+Shark&emblems=Teferi%2C+Hero+of+Dominaria+%28MED%29%0ATeferi%2C+Hero+of+Dominaria+%28DOM%29)
+
 ### 2020-11-02
 
-* Can specify a language #53
-* Add a permalink button #44
+- Can specify a language #53
+- Add a permalink button #44
 
 Try it [here](https://inkfathom.netlify.app/?cards=1+Jeweled+Lotus%0A1+N%C3%A9gation+lang%3Afr+%28RIX%29%0A1+Dare+l%27Allarme+lang%3Ait)
 
 ### 2020-10-26
 
-* Handle tokens from URL #29
-* Resize custom artwork before printing #31
-* Add a printer friendly mode #17
+- Handle tokens from URL #29
+- Resize custom artwork before printing #31
+- Add a printer friendly mode #17
 
 ### 2020-10-09
 
-* Manage doubled-faced cards #10
-* Handle direct url as cards #12
+- Manage doubled-faced cards #10
+- Handle direct url as cards #12
 
 Showcase payload:
 
-	2 Nicol Bolas, the Ravager // Nicol Bolas, the Arisen
-	2 https://preview.redd.it/o24hrebvwrr51.png?width=497&auto=webp&s=7040a065ffd8aff38c661b31f7196d4a8b72863b
-	1 https://external-preview.redd.it/8a6muxHWVtH8ygmy7ktGcsKE-p20WWJfyPoO5Zg5-cg.jpg?width=375&auto=webp&s=5e644fe3065893dcac903f4e1641cf1fb79019aa
-	1 Riverglide Pathway // Lavaglide Pathway
+    2 Nicol Bolas, the Ravager // Nicol Bolas, the Arisen
+    2 https://preview.redd.it/o24hrebvwrr51.png?width=497&auto=webp&s=7040a065ffd8aff38c661b31f7196d4a8b72863b
+    1 https://external-preview.redd.it/8a6muxHWVtH8ygmy7ktGcsKE-p20WWJfyPoO5Zg5-cg.jpg?width=375&auto=webp&s=5e644fe3065893dcac903f4e1641cf1fb79019aa
+    1 Riverglide Pathway // Lavaglide Pathway
 
 ### 2019-06-25
 
-* Get cards from scryfall's api
+- Get cards from scryfall's api
 
 ### 2017-05-10
 
-* Get cards from deckbrew's api
-* Build the first parser
+- Get cards from deckbrew's api
+- Build the first parser
 
 ## Stack
 
@@ -80,5 +87,5 @@ Picture rendering come from [Scryfall](https://scryfall.com/).
 
 ## Legal
 
-* All informations presented through this website about Magic: The Gathering is copyrighted by Wizards of the Coast.
-* This website are not produced, endorsed, supported, or affiliated with Wizards of the Coast.
+- All informations presented through this website about Magic: The Gathering is copyrighted by Wizards of the Coast.
+- This website are not produced, endorsed, supported, or affiliated with Wizards of the Coast.
