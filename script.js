@@ -107,7 +107,6 @@ function getTokenImageUrls(data, name) {
 }
 
 function appendCards(sources, quantity, isCustom) {
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
   sources.forEach((source) => {
     for (let i = 0; i < quantity; i++) {
       const div = document.createElement("div");
@@ -126,7 +125,7 @@ function appendCards(sources, quantity, isCustom) {
       div.appendChild(loader);
 
       const img = document.createElement("img");
-      const src = isCustom ? proxyurl + source.source : source.source;
+      const src = isCustom ? source.source : source.source;
       img.crossOrigin = "anonymous";
       img.setAttribute("src", src);
       img.classList.add("noGutter", "normalSize");
@@ -175,20 +174,20 @@ function isUrl(str) {
   return !!pattern.test(str);
 }
 
-const notFoundBanner = document.querySelector('.error');
+const notFoundBanner = document.querySelector(".error");
 function appendToErrorList(cardName) {
   if (notFoundBanner.classList.contains("hidden")) {
     notFoundBanner.classList.remove("hidden");
   }
-  const li = document.createElement('li');
+  const li = document.createElement("li");
   li.textContent = cardName;
   const ul = notFoundBanner.lastElementChild.lastElementChild;
   ul.appendChild(li);
 }
 
 function cleanChildren(parent) {
-    while (parent.firstElementChild) {
-      parent.removeChild(parent.firstElementChild);
+  while (parent.firstElementChild) {
+    parent.removeChild(parent.firstElementChild);
   }
 }
 
@@ -227,7 +226,10 @@ function fill(value, isToken = false) {
             false
           )
         )
-        .catch((e) => { appendToErrorList(card.name); console.error(`Booo:\n ${e}`) });
+        .catch((e) => {
+          appendToErrorList(card.name);
+          console.error(`Booo:\n ${e}`);
+        });
     });
 }
 
@@ -432,14 +434,20 @@ function print() {
 }
 
 function getBase64Image(img, width, height) {
-	const biggerFactor = 4; // hackfix
+  const biggerFactor = 4; // hackfix
   const classes = img.className;
   img.className = "";
   var canvas = document.createElement("canvas");
   canvas.width = parseInt(img.width) * biggerFactor;
   canvas.height = parseInt(img.height) * biggerFactor;
   var ctx = canvas.getContext("2d");
-  ctx.drawImage(img, 0, 0, parseInt(img.width) * biggerFactor, parseInt(img.height) * biggerFactor);
+  ctx.drawImage(
+    img,
+    0,
+    0,
+    parseInt(img.width) * biggerFactor,
+    parseInt(img.height) * biggerFactor
+  );
   var dataURL = canvas.toDataURL("image/jpg");
   img.className = classes;
   return dataURL.replace(/^data:image\/jpg;base64,/, "");
@@ -500,7 +508,11 @@ function switchPrint(e) {
         if (data.total_cards === 1) {
           img.dataset.totalCards = 1;
           e.target.removeAttribute("disabled");
-          e.target.textContent = formatSwitchButtonContent(data.data[0].set, 1, 1);
+          e.target.textContent = formatSwitchButtonContent(
+            data.data[0].set,
+            1,
+            1
+          );
           return;
         }
 
@@ -519,7 +531,11 @@ function switchPrint(e) {
           }))
         );
         img.onload = function () {
-          e.target.textContent = formatSwitchButtonContent(next.set, current + 1, data.total_cards);
+          e.target.textContent = formatSwitchButtonContent(
+            next.set,
+            current + 1,
+            data.total_cards
+          );
           e.target.removeAttribute("disabled");
         };
         img.src = (img.dataset.face
@@ -533,7 +549,11 @@ function switchPrint(e) {
     const current = prints.findIndex((print) => print.source === img.src);
     const next = prints[current === prints.length - 1 ? 0 : current + 1];
     img.onload = function () {
-      e.target.textContent = formatSwitchButtonContent(next.set, current + 1, prints.length);
+      e.target.textContent = formatSwitchButtonContent(
+        next.set,
+        current + 1,
+        prints.length
+      );
       e.target.removeAttribute("disabled");
     };
     img.src = next.source;
