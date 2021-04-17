@@ -1,6 +1,6 @@
-![banner](banner_for_light.png)
-
 # Inkfathom Proxy
+
+![banner](banner_for_light.png)
 
 Inkfathom Proxy is a webapp to format and display a mtg deck to create proxies. [Try it Online!](https://inkfathom.netlify.app)
 
@@ -13,7 +13,7 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 [mtgpress.net](http://www.mtgpress.net/) is down, but alternatives include [proxymtg](http://proxymtg.net/), [MTG Proxy Generator](https://philo-jh.github.io/MTG-Proxy-Generator/) and [https://mtgprint.cardtrader.com/](https://mtgprint.cardtrader.com/). If you are looking for a windows app, you may like [Tolarian Copyshop](https://bitbucket.org/tolarianlibrarians/mtg-tolarian-copyshop/downloads/) too. I create a comparaison table, feel free to open an issue if I missed anything:
 
 |                                 | inkfathom | mtgprint | proxymtg | tolarian copyshop                                                                         | MTG Proxy Generator |
-| ------------------------------- | --------- | -------- | -------- | ----------------------------------------------------------------------------------------- | ------------------- | --- |
+| ------------------------------- | --------- | -------- | -------- | ----------------------------------------------------------------------------------------- | ------------------- |
 | is free                         | ✔️        | ✔️       | ✔️       | ✔️                                                                                        | ✔️                  |
 | is ad-free                      | ✔️        | ✔️       | ✔️       | ✔️                                                                                        | ✔️                  |
 | is privacy friendly<sup>1</sup> | ✔️        | ❌       | ❌       | ✔️                                                                                        | ✔️                  |
@@ -21,7 +21,7 @@ Proxies are acceptable in most casual game, so lets go to the printer and brrrr.
 | is online                       | ✔️        | ✔️       | ✔️       | ❌                                                                                        | ✔️                  |
 | is cross plateform              | ✔️        | ✔️       | ✔️       | ❌                                                                                        | ✔️                  |
 | is responsive                   | ✔️        | ✔️       | ✔️       | ❌                                                                                        | ✔️                  |
-| is community-driven<sup>2</sup> | ✔️        | ❌       | ❌       | ❌                                                                                        | ✔️                  | ✔️  |
+| is community-driven<sup>2</sup> | ✔️        | ❌       | ❌       | ❌                                                                                        | ✔️                  |
 | support text-only               | ✔️        | ❌       | ❌       | [🚧 WIP](https://trello.com/c/fu3vex2u/72-text-only-print-option)                         | ❌                  |
 | support token                   | ✔️        | ✔️       | ✔️       | ?                                                                                         | ✔️                  |
 | support emblems                 | ✔️        | ?        | ?        | ?                                                                                         | ✔️                  |
