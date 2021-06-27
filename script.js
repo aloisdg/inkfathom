@@ -6,17 +6,18 @@ const emblemPath = "t:emblem%20name=";
 
 const minScale = 30;
 const maxScale = 300;
+const stepScale = 10;
 
 document.querySelector(".scale-component .minus").onclick = () => {
   const current = parseInt(document.querySelector(".value").value);
-  const nextValue = current <= minScale ? minScale : current - 1;
+  const nextValue = current <= minScale ? minScale : current - stepScale;
   document.querySelector(".scale-component .value").value = nextValue;
   document.querySelector(".scale-component .value").dispatchEvent(new Event("change"));
 };
 
 document.querySelector(".scale-component .plus").onclick = () => {
   const current = parseInt(document.querySelector(".value").value);
-  const nextValue = current >= maxScale ? maxScale : current + 1;
+  const nextValue = current >= maxScale ? maxScale : current + stepScale;
   document.querySelector(".scale-component .value").value = nextValue;
   document.querySelector(".scale-component .value").dispatchEvent(new Event("change"));
 };
