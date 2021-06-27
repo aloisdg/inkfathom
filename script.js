@@ -126,17 +126,17 @@ function getEmblemImageUrls(data, name) {
     : [buildCardDataset(face, face.prints_search_uri, face.set)];
 }
 
-function appendCards(sources, quantity, isCustom) {
+function appendCards(sources, quantity, isCustom, configuration) {
   sources.forEach((source) => {
     for (let i = 0; i < quantity; i++) {
       const div = document.createElement("div");
       div.classList.add(
         "flex",
         "relative",
-        "noGutter",
-        "normalSize",
         "justify-center",
-        "align-center"
+        "align-center",
+        configuration.gutter,
+        configuration.size,
       );
 
       const loader = document.createElement("div");
@@ -148,7 +148,7 @@ function appendCards(sources, quantity, isCustom) {
       const src = isCustom ? source.source : source.source;
       img.crossOrigin = "anonymous";
       img.setAttribute("src", src);
-      img.classList.add("noGutter", "normalSize");
+      img.classList.add(configuration.gutter, configuration.size);
       img.dataset.src = src;
       img.dataset.custom = source.custom;
       if (!source.custom) {
@@ -175,6 +175,23 @@ function appendCards(sources, quantity, isCustom) {
       deckElement.appendChild(div);
     }
   });
+}
+
+// we might get it from menu instead...
+function recoverConfiguration() {
+  let child = document.querySelector("main > :first-child");
+  if (!child) {
+    return {
+      size: "normalSize",
+      gutter: "noGutter"
+    }
+  }
+  let classList = [...child.classList];
+  let configuration = {
+    size: classList.filter(x => x.endsWith("Size"))[0],
+    gutter: classList.filter(x => x.endsWith("Gutter"))[0],
+  };
+  return configuration;
 }
 
 function clean() {
@@ -237,7 +254,7 @@ function getTypeImageUrls(cardType, data, name, edition) {
 }
 
 const keywords = ["Deck", "Sideboard", "Maybeboard"];
-function fill(value, cardType) {
+function fill(value, cardType, configuration) {
   [...value.split("\n")]
     .filter((line) => !!line.trim() && !keywords.includes(line.trim()))
     .forEach((context) => {
@@ -246,7 +263,8 @@ function fill(value, cardType) {
         appendCards(
           [{ source: card.name, custom: true, isBasicLand: false }],
           card.quantity,
-          true
+          true,
+          configuration
         );
         return;
       }
@@ -257,7 +275,8 @@ function fill(value, cardType) {
           appendCards(
             getTypeImageUrls(cardType, data, card.name, card.edition),
             card.quantity,
-            false
+            false,
+            configuration
           )
         )
         .catch((e) => {
@@ -493,11 +512,12 @@ function renderDeck() {
   const emblems = document.querySelector("#extra_emblems").value.trim();
   if (cards === "" && tokens === "" && emblems === "") return;
 
+  let configuration = recoverConfiguration();
   clean();
   cleanErrorList();
-  if (!!cards) fill(cards, CardType.Classic);
-  if (!!tokens) fill(tokens, CardType.Token);
-  if (!!tokens) fill(emblems, CardType.Emblem);
+  if (!!cards) fill(cards, CardType.Classic, configuration);
+  if (!!tokens) fill(tokens, CardType.Token, configuration);
+  if (!!tokens) fill(emblems, CardType.Emblem, configuration);
 }
 
 document.querySelector(".print").onclick = function () {
