@@ -177,23 +177,6 @@ function appendCards(sources, quantity, isCustom, configuration) {
   });
 }
 
-// we might get it from menu instead...
-function recoverConfiguration() {
-  let child = document.querySelector("main > :first-child");
-  if (!child) {
-    return {
-      size: "normalSize",
-      gutter: "noGutter"
-    }
-  }
-  let classList = [...child.classList];
-  let configuration = {
-    size: classList.filter(x => x.endsWith("Size"))[0],
-    gutter: classList.filter(x => x.endsWith("Gutter"))[0],
-  };
-  return configuration;
-}
-
 function clean() {
   cleanChildren(document.querySelector("main"));
 }
@@ -511,10 +494,12 @@ function renderDeck() {
   const tokens = document.querySelector("#extra_tokens").value.trim();
   const emblems = document.querySelector("#extra_emblems").value.trim();
   if (cards === "" && tokens === "" && emblems === "") return;
-
-  let configuration = recoverConfiguration();
   clean();
   cleanErrorList();
+  let configuration = {
+    size: document.querySelector(".size").value,
+    gutter: document.querySelector(".gutter").value
+  };
   if (!!cards) fill(cards, CardType.Classic, configuration);
   if (!!tokens) fill(tokens, CardType.Token, configuration);
   if (!!tokens) fill(emblems, CardType.Emblem, configuration);
