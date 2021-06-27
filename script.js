@@ -429,6 +429,14 @@ function getCardSize(sizeClass) {
   };
 }
 
+function getCardSize(scale) {
+  return {
+    width: 63 * scale / 100,
+    height: 88 * scale / 100,
+    name: scale != 100 ? `"Std Card USA Game scaled at {scale}%` : "Std Card USA Game",
+  };
+}
+
 function print() {
   const imgs = document.querySelectorAll(".deck > div:not(.hidden) > img");
   const sheet =
