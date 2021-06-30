@@ -76,27 +76,38 @@ function getGutter(gutterClass) {
   return 0;
 }
 
-function getCardSize(sizeClass) {
-  if (sizeClass === "tinySize") {
+// function getCardSize(sizeClass) {
+//   if (sizeClass === "tinySize") {
+//     return {
+//       width: 38,
+//       height: 53,
+//       name: "38x53",
+//     };
+//   }
+//   if (sizeClass === "smallSize") {
+//     return {
+//       width: 56,
+//       height: 78,
+//       name: "56x78",
+//     };
+//   }
+//   return {
+//     width: 63,
+//     height: 88,
+//     name: "Std Card USA Game",
+//   };
+// }
+
+function getCardSize(scale) {
     return {
-      width: 38,
-      height: 53,
-      name: "38x53",
+      width: scaleWidth(scale),
+      height: scaleHeight(scale),
+      name:
+        scale != 100
+          ? `Std Card USA Game scaled at ${scale}%`
+          : "Std Card USA Game",
     };
   }
-  if (sizeClass === "smallSize") {
-    return {
-      width: 56,
-      height: 78,
-      name: "56x78",
-    };
-  }
-  return {
-    width: 63,
-    height: 88,
-    name: "Std Card USA Game",
-  };
-}
 
 const buildPdfName = (deckSize, cardName) =>
   `InkfathomProxy-${deckSize}_${cardName.replace(" ", "_")}.pdf`;

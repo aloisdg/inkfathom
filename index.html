@@ -1,221 +1,370 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Inkfathom Proxy is an open source web application for building PDF of cards to print them for play testing or casual gaming."
+    />
+    <meta
+      name="keywords"
+      content="inkfathom, proxy, proxies, cards, deck, print, mtg, magic the gathering, magic"
+    />
+    <meta property="og:url" content="http://inkfathom.netlify.app" />
+    <meta
+      property="og:image"
+      content="http://inkfathom.netlify.app/banner_for_dark.png"
+    />
+    <meta property="og:title" content="Inkfathom Proxy" />
+    <meta
+      property="og:description"
+      content="Inkfathom Proxy is an open source web application for building PDF of cards to print them for play testing or casual gaming."
+    />
+    <meta name="twitter:site" content="http://inkfathom.netlify.app" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="http://inkfathom.netlify.app/banner_for_dark.png"
+    />
+    <meta name="application-name" content="Inkfathom Proxy" />
+    <meta name="theme-color" content="#202b38" />
+    <title>Inkfathom Proxy</title>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <meta name="description"
-    content="Inkfathom Proxy is an open source web application for building PDF of cards to print them for play testing or casual gaming." />
-  <meta name="keywords" content="inkfathom, proxy, proxies, cards, deck, print, mtg, magic the gathering, magic" />
-  <meta property="og:url" content="http://inkfathom.netlify.app" />
-  <meta property="og:image" content="http://inkfathom.netlify.app/banner_for_dark.png">
-  <meta property="og:title" content="Inkfathom Proxy" />
-  <meta property="og:description"
-    content="Inkfathom Proxy is an open source web application for building PDF of cards to print them for play testing or casual gaming." />
-  <meta name="twitter:site" content="http://inkfathom.netlify.app" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="http://inkfathom.netlify.app/banner_for_dark.png" />
-  <meta name="application-name" content="Inkfathom Proxy" />
-  <meta name="theme-color" content="#202b38" />
-  <title>Inkfathom Proxy</title>
-  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body class="relative p-0 md-p-2">
-  <div class="blurry-background absolute">
-    <div class="blurry-background-art"
-      style="bottom: 42vh; background-image: url(&quot;https://c1.scryfall.com/file/scryfall-cards/art_crop/front/2/8/28854f0f-48d3-4a54-8811-c6329ad2e88e.jpg?1562828074&quot;);">
+  <body class="relative p-0 md-p-2">
+    <div class="blurry-background absolute">
+      <div
+        class="blurry-background-art"
+        style="
+          bottom: 42vh;
+          background-image: url('https://c1.scryfall.com/file/scryfall-cards/art_crop/front/2/8/28854f0f-48d3-4a54-8811-c6329ad2e88e.jpg?1562828074');
+        "
+      ></div>
     </div>
-  </div>
-  <header class="flex m-4">
-    <img src="title.png" alt="Inkfathom Proxy">
-  </header>
-  <section class="ml-4 mr-2 flex">
-    <div class="error mb-2 relative hidden">
-      <button type="button" class="absolute r-0 py-2 px-3"
-        onclick="this.parentElement.classList.toggle('hidden');">✕</button>
-      <div class="p-2">
-        <span>Sorry. We could not find:</span>
-        <ul style="list-style: inside disc;"></ul>
+    <header class="flex m-4">
+      <img src="title.png" alt="Inkfathom Proxy" />
+    </header>
+    <section class="ml-4 mr-2 flex">
+      <div class="error mb-2 relative hidden">
+        <button
+          type="button"
+          class="absolute r-0 py-2 px-3"
+          onclick="this.parentElement.classList.toggle('hidden');"
+        >
+          ✕
+        </button>
+        <div class="p-2">
+          <span>Sorry. We could not find:</span>
+          <ul style="list-style: inside disc"></ul>
+        </div>
       </div>
-    </div>
-    <div class="mb-2 relative">
-      <button id="shareUrl" type="button" class="absolute r-0 p-2">🔗</button>
-      <textarea id="cards" class="cards rb-0 mb-0_5"
-        placeholder="2 Opt&#10;1 Riverglide Pathway // Lavaglide Pathway&#10;1 https://i.imgur.com/x2bOOjY.jpg"
-        wrap="off" rows="10">
+      <div class="mb-2 relative">
+        <button id="shareUrl" type="button" class="absolute r-0 p-2">🔗</button>
+        <textarea
+          id="cards"
+          class="cards rb-0 mb-0_5"
+          placeholder="2 Opt&#10;1 Riverglide Pathway // Lavaglide Pathway&#10;1 https://i.imgur.com/x2bOOjY.jpg"
+          wrap="off"
+          rows="10"
+        >
 2 Duress (M19)
 1 Gyome, Master Chef
 1 Ruxa, Patient Professor
 1 Riverglide Pathway // Lavaglide Pathway
 1 https://i.imgur.com/x2bOOjY.jpg
 1 Ashiok, Nightmare Muse
-</textarea>
-      <textarea id="extra_tokens" class="rb-0 rt-0 mb-0_5 extra_tokens" placeholder="1 Squirrel" wrap="off" rows="2">
-1 Squirrel (UND)
-1 Shark
-</textarea>
-      <textarea id="extra_emblems" class="rt-0 extra_emblems" placeholder="1 Teferi, Hero of Dominaria" wrap="off"
-        rows="2">
-Teferi, Hero of Dominaria (MED)
-Teferi, Hero of Dominaria
-</textarea>
-    </div>
-    <div class="mb-2 grid gap grid-flow-col">
-      <button class="display">&#128270;</button>
-      <button class="print">&#128424;</button>
-    </div>
-    <select class="mb-2 size">
-      <option value="normalSize">Normal card size</option>
-      <option value="smallSize">Small card size</option>
-      <option value="tinySize">Tiny card size</option>
-    </select>
-    <select class="mb-2 gutter">
-      <option value="noGutter">No gutter</option>
-      <option value="tinyGutter">Tiny gutter</option>
-      <option value="smallGutter">Small gutter</option>
-    </select>
-    <select class="mb-2 sheet">
-      <option value="A0">Sheet size A0</option>
-      <option value="A1">Sheet size A1</option>
-      <option value="A2">Sheet size A2</option>
-      <option value="A3">Sheet size A3</option>
-      <option value="A4" selected>Sheet size A4</option>
-      <option value="A5">Sheet size A5</option>
-      <option value="A6">Sheet size A6</option>
-    </select>
-    <select class="mb-2 cardAs">
-      <option value="image">Card as Image</option>
-      <option value="text">Card as Text</option>
-    </select>
-    <select class="mb-2 decklist">
-      <option value="without">Without decklist</option>
-      <option value="with">With decklist</option>
-    </select>
-    <select class="mb-2 skipBasicLands">
-      <option value="with">With basic lands</option>
-      <option value="without">Without basic lands</option>
-    </select>
-  </section>
+</textarea
+        >
+        <textarea
+          id="extra_tokens"
+          class="rb-0 rt-0 mb-0_5 extra_tokens"
+          placeholder="1 Squirrel"
+          wrap="off"
+          rows="2"
+        >1 Squirrel (UND)
+1 Shark</textarea
+        >
+        <textarea
+          id="extra_emblems"
+          class="rt-0 extra_emblems"
+          placeholder="1 Teferi, Hero of Dominaria"
+          wrap="off"
+          rows="2"
+        >Teferi, Hero of Dominaria (MED)
+Teferi, Hero of Dominaria</textarea
+        >
+      </div>
+      <div class="mb-2 grid gap grid-flow-col">
+        <button class="display">&#128270;</button>
+        <button class="print">&#128424;</button>
+      </div>
+      <hr />
+      <div class="my-2">
+        <div class="grid gap grid-auto-auto-auto scale-component">
+          <!-- <label class="self-end ml-4">Scale</label> -->
+          <button type="button" class="minus text-bold">-</button>
+          <input
+            class="value text-center number m-0"
+            onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+            type="number"
+            step="1"
+            value="100"
+            min="30"
+            max="300"
+            placeholder="100"
+          />
+          <button type="button" class="plus text-bold">+</button>
+        </div>
+      </div>
+      
+      <select class="mb-2 gutter">
+        <option value="noGutter">No gutter</option>
+        <option value="tinyGutter">Tiny gutter</option>
+        <option value="smallGutter">Small gutter</option>
+      </select>
+      <select class="mb-2 sheet">
+        <option value="A0">Sheet size A0</option>
+        <option value="A1">Sheet size A1</option>
+        <option value="A2">Sheet size A2</option>
+        <option value="A3">Sheet size A3</option>
+        <option value="A4" selected>Sheet size A4</option>
+        <option value="A5">Sheet size A5</option>
+        <option value="A6">Sheet size A6</option>
+      </select>
+      <select class="mb-2 cardAs">
+        <option value="image">Card as Image</option>
+        <option value="text">Card as Text</option>
+      </select>
+      <select class="mb-2 decklist">
+        <option value="without">Without decklist</option>
+        <option value="with">With decklist</option>
+      </select>
+      <select class="mb-2 skipBasicLands">
+        <option value="with">With basic lands</option>
+        <option value="without">Without basic lands</option>
+      </select>
+    </section>
 
-  <main class="deck overflow-y ml-2 mr-4 justify-center md-justify-start flex flex-wrap align-content-start">
-  </main>
+    <main
+      class="
+        deck
+        overflow-y
+        ml-2
+        mr-4
+        justify-center
+        md-justify-start
+        flex flex-wrap
+        align-content-start
+      "
+    ></main>
 
-  <footer class="md-p-2 flex flex-gap flex-wrap justify-center">
-    <a href="https://github.com/aloisdg/inkfathom" title="Repository hosted on GitHub">GitHub</a>
-    <a href="https://github.com/aloisdg/inkfathom/issues/new/choose" title="Issue Tracker">Issue Tracker</a>
-    <a href="https://discord.gg/NEMkqG8wK6" title="Discord chat">Discord</a>
-    <a href="https://github.com/aloisdg/inkfathom/wiki" title="GitHub Wiki">Wiki</a>
-    <a data-micromodal-trigger="modal-2" href='javascript:void(0);'>Privacy Policy</a>
-    <a data-micromodal-trigger="modal-1" href='javascript:void(0);'>Legal Notice</a>
-  </footer>
+    <footer class="md-p-2 flex flex-gap flex-wrap justify-center">
+      <a
+        href="https://github.com/aloisdg/inkfathom"
+        title="Repository hosted on GitHub"
+        >GitHub</a
+      >
+      <a
+        href="https://github.com/aloisdg/inkfathom/issues/new/choose"
+        title="Issue Tracker"
+        >Issue Tracker</a
+      >
+      <a href="https://discord.gg/NEMkqG8wK6" title="Discord chat">Discord</a>
+      <a href="https://github.com/aloisdg/inkfathom/wiki" title="GitHub Wiki"
+        >Wiki</a
+      >
+      <a data-micromodal-trigger="modal-2" href="javascript:void(0);"
+        >Privacy Policy</a
+      >
+      <a data-micromodal-trigger="modal-1" href="javascript:void(0);"
+        >Legal Notice</a
+      >
+    </footer>
 
-  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-  <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
-  <script src="utils/pdf.js"></script>
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      try {
-        MicroModal.init({
-          awaitCloseAnimation: true // set to false, to remove close animation
-        });
-      } catch (e) {
-        console.error("micromodal error: ", e);
-      }
-    });
-  </script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+    <script src="utils/helper.js"></script>
+    <script src="utils/pdf.js"></script>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        try {
+          MicroModal.init({
+            awaitCloseAnimation: true, // set to false, to remove close animation
+          });
+        } catch (e) {
+          console.error("micromodal error: ", e);
+        }
+      });
+    </script>
 
-  <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
-    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
-        <header class="modal__header">
-          <h2 class="modal__title">
-            Legal Notice
-          </h2>
-          <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-        </header>
-        <div class="modal-content-content">
-          <div class="modal__content">
-            <p class="mb-2">
-              Portions of Inkfathom Proxy are unofficial Fan Content permitted under the Wizards of the Coast Fan
-              Content
-              Policy. The literal and graphical information presented on this site about Magic: The Gathering, including
-              card
-              images, the mana symbols, is copyright Wizards of the Coast, LLC, a subsidiary of Hasbro, Inc. Inkfathom
-              Proxy
-              is not produced by, endorsed by, supported by, or affiliated with Wizards of the Coast.
-            </p>
-            <p class="mb-2">
-              Card prices and promotional offers represent daily estimates and/or market values provided by our
-              affiliates.
-              Absolutely no guarantee is made for any price information. See stores for final prices and details.
-            </p>
-            <p class="mb-2">
-              Pretty much all content is available thanks to <a href="https://scryfall.com/"
-                title="Scryfall Magic: The Gathering Search">Scryfall, LLC</a>. You guys rule.
-            </p>
-            <p class="mb-2">
-              Logo is the the Squid head icon by <a href="http://lorcblog.blogspot.com" rel="author">Lorc</a> under <a
-                href="http://creativecommons.org/licenses/by/3.0/" rel="license">CC BY 3.0</a>.
-            </p>
-            <p class="mb-2">
-              Font used in the title is <a href="https://www.dafont.com/fr/jmh-cthulhumbus.font" title="">JMH
-                Cthulhumbus</a> by <a href="https://www.dafont.com/fr/joorgemoron.d6837" title="View profile">Jorge
-                Morón</a>.
-            </p>
-            <p>
-              This project is alive thanks to those libraries:
-              <ul class="ml-4">
-                <li><a title="A drop-in collection of CSS styles to make simple websites just a little nicer."
-                    href="https://github.com/kognise/water.css">Water.css</a> released under MIT License.</li>
-                <li><a title="Client-side JavaScript PDF generation for everyone."
-                    href="https://github.com/MrRio/jsPDF">jsPDF</a> released under MIT License.</li>
-                <li><a title="Tiny javascript library for creating accessible modal dialogs"
-                    href="https://github.com/Ghosh/micromodal">Micromodal</a> released under MIT License.</li>
-              </ul>
-            </p>
-            <p class="mb-2">
-              The <a href="https://github.com/aloisdg/inkfathom/" title="View source code on GitHub">source code</a> of
-              Inkfathom Proxy itself is available under <a
-                href="https://github.com/aloisdg/inkfathom/blob/master/LICENSE" title="License hosted on GitHub">GPL-3.0
-                License</a>.
-            </p>
+    <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-1-title"
+        >
+          <header class="modal__header">
+            <h2 class="modal__title">Legal Notice</h2>
+            <button
+              class="modal__close"
+              aria-label="Close modal"
+              data-micromodal-close
+            ></button>
+          </header>
+          <div class="modal-content-content">
+            <div class="modal__content">
+              <p class="mb-2">
+                Portions of Inkfathom Proxy are unofficial Fan Content permitted
+                under the Wizards of the Coast Fan Content Policy. The literal
+                and graphical information presented on this site about Magic:
+                The Gathering, including card images, the mana symbols, is
+                copyright Wizards of the Coast, LLC, a subsidiary of Hasbro,
+                Inc. Inkfathom Proxy is not produced by, endorsed by, supported
+                by, or affiliated with Wizards of the Coast.
+              </p>
+              <p class="mb-2">
+                Card prices and promotional offers represent daily estimates
+                and/or market values provided by our affiliates. Absolutely no
+                guarantee is made for any price information. See stores for
+                final prices and details.
+              </p>
+              <p class="mb-2">
+                Pretty much all content is available thanks to
+                <a
+                  href="https://scryfall.com/"
+                  title="Scryfall Magic: The Gathering Search"
+                  >Scryfall, LLC</a
+                >. You guys rule.
+              </p>
+              <p class="mb-2">
+                Logo is the the Squid head icon by
+                <a href="http://lorcblog.blogspot.com" rel="author">Lorc</a>
+                under
+                <a
+                  href="http://creativecommons.org/licenses/by/3.0/"
+                  rel="license"
+                  >CC BY 3.0</a
+                >.
+              </p>
+              <p class="mb-2">
+                Font used in the title is
+                <a
+                  href="https://www.dafont.com/fr/jmh-cthulhumbus.font"
+                  title=""
+                  >JMH Cthulhumbus</a
+                >
+                by
+                <a
+                  href="https://www.dafont.com/fr/joorgemoron.d6837"
+                  title="View profile"
+                  >Jorge Morón</a
+                >.
+              </p>
+              <span>
+                This project is alive thanks to those libraries:
+                <ul class="ml-4">
+                  <li>
+                    <a
+                      title="A drop-in collection of CSS styles to make simple websites just a little nicer."
+                      href="https://github.com/kognise/water.css"
+                      >Water.css</a
+                    >
+                    released under MIT License.
+                  </li>
+                  <li>
+                    <a
+                      title="Client-side JavaScript PDF generation for everyone."
+                      href="https://github.com/MrRio/jsPDF"
+                      >jsPDF</a
+                    >
+                    released under MIT License.
+                  </li>
+                  <li>
+                    <a
+                      title="Tiny javascript library for creating accessible modal dialogs"
+                      href="https://github.com/Ghosh/micromodal"
+                      >Micromodal</a
+                    >
+                    released under MIT License.
+                  </li>
+                </ul></span
+              >
+              <p class="mb-2">
+                The
+                <a
+                  href="https://github.com/aloisdg/inkfathom/"
+                  title="View source code on GitHub"
+                  >source code</a
+                >
+                of Inkfathom Proxy itself is available under
+                <a
+                  href="https://github.com/aloisdg/inkfathom/blob/master/LICENSE"
+                  title="License hosted on GitHub"
+                  >GPL-3.0 License</a
+                >.
+              </p>
+            </div>
+            <footer class="modal__footer">
+              <button
+                class="modal__btn"
+                data-micromodal-close
+                aria-label="Close this dialog window"
+              >
+                Close
+              </button>
+            </footer>
           </div>
-          <footer class="modal__footer">
-            <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
-          </footer>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal micromodal-slide" id="modal-2" aria-hidden="true">
-    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-2-title">
-        <header class="modal__header">
-          <h2 class="modal__title">
-            Privacy Policy
-          </h2>
-          <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-        </header>
-        <div class="modal-content-content">
-          <div class="modal__content">
-            <p class="mb-2">
-              We consider the privacy of our visitors to be extremely important, so we don't collect nor we record
-              anything.
-              You don't have to trust us by the way. You can download the whole website and run it yourself.
-            </p>
+    <div class="modal micromodal-slide" id="modal-2" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div
+          class="modal__container"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-2-title"
+        >
+          <header class="modal__header">
+            <h2 class="modal__title">Privacy Policy</h2>
+            <button
+              class="modal__close"
+              aria-label="Close modal"
+              data-micromodal-close
+            ></button>
+          </header>
+          <div class="modal-content-content">
+            <div class="modal__content">
+              <p class="mb-2">
+                We consider the privacy of our visitors to be extremely
+                important, so we don't collect nor we record anything. You don't
+                have to trust us by the way. You can download the whole website
+                and run it yourself.
+              </p>
+            </div>
+            <footer class="modal__footer">
+              <button
+                class="modal__btn"
+                data-micromodal-close
+                aria-label="Close this dialog window"
+              >
+                Close
+              </button>
+            </footer>
           </div>
-          <footer class="modal__footer">
-            <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
-          </footer>
         </div>
       </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
