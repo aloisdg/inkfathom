@@ -319,7 +319,7 @@ const buildPdf = (
 };
 
 function getCardSize(sizeClass) {
-  const scale = sizeClass === "normalSize" ? 100 : (sizeClass === "smallSize" ? 90 : 110);
+  const scale = sizeClass === "normalSize" ? 100 : (sizeClass === "smallSize" ? 90 : 80);
   return {
     width: 63 * scale / 100,
     height: 88 * scale / 100,
