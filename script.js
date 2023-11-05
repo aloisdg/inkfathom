@@ -318,11 +318,17 @@ const buildPdf = (
   return doc;
 };
 
-function getCardSize(scale) {
+function getCardSize(scaleName) {
+  const scaleMap = {
+    "tinySize":   38 / 63,
+    "smallSize":  56 / 63,
+    "normalSize": 1.0
+  };
+  const scale = scaleMap[scaleName];
   return {
-    width: 63 * scale / 100,
-    height: 88 * scale / 100,
-    name: scale != 100 ? `"Std Card USA Game scaled at {scale}%` : "Std Card USA Game",
+    width: 63 * scale,
+    height: 88 * scale,
+    name: scale != 1.0 ? `"Std Card USA Game scaled to ${parseInt(scale * 100)}%` : "Std Card USA Game",
   }
 }
 
